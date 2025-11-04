@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PersonaSolicitudViatico extends Model
 {
+    protected $table = 'personas_solicitud_viaticos';
     use SoftDeletes;
 }
