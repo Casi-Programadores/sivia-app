@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Personas_Solicitud_Viatico extends Model
+class PersonaSolicitudViatico extends Model
 {
     use SoftDeletes;
 }
