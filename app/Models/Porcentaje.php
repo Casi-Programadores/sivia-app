@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Percentage extends Model
+class Porcentaje extends Model
 {
     use SoftDeletes;
 }

@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class EntryDesk extends Model
+class Mesa_Entrada extends Model
 {
+    protected $table = 'mesa_entrada';
     use SoftDeletes;
 }
