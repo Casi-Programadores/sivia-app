@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('travel_expense_request_people', function (Blueprint $table) {
+        Schema::create('personas_solicitudes_viaticos', function (Blueprint $table) {
             $table->id(); 
 
             // Foreign Keys
-            $table->foreignId('travel_expense_request_id')->unique()->constrained('travel_expense_requests')->onDelete('cascade');
-            $table->foreignId('person_id')->unique()->constrained('people')->onDelete('cascade');
+            $table->foreignId('solicitud_viatico_id')->unique()->constrained('solicitudes_viaticos')->onDelete('cascade');
+            $table->foreignId('persona_id')->unique()->constrained('personas')->onDelete('cascade');
             
             $table->timestamps();
-            $table->softDeletes(); // For soft deletion (deleted_at column)
+            $table->softDeletes(); // Borrado lógico
         });
     }
 
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('travel_expense_request_people');
+        Schema::dropIfExists('personas_solicitudes_viaticos');
     }
 };

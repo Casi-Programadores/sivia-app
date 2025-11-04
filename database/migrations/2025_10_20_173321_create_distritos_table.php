@@ -7,24 +7,24 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecutar las migraciones.
      */
     public function up(): void
     {
-        Schema::create('request_statuses', function (Blueprint $table) {
+        // Tabla de distritos (ubicación)
+        Schema::create('distritos', function (Blueprint $table) {
             $table->id();
-            $table->string('status_name', 50)->unique(); // Example: "Pending", "Approved", "Rejected"
-            
+            $table->string('distrito', 100);
             $table->timestamps();
-            $table->softDeletes(); // Borrado Lógico
+            $table->softDeletes(); // Borrado lógico
         });
     }
 
     /**
-     * Reverse the migrations.
+     * Revertir las migraciones.
      */
     public function down(): void
     {
-        Schema::dropIfExists('request_statuses');
+        Schema::dropIfExists('distritos');
     }
 };

@@ -7,24 +7,24 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecutar las migraciones.
      */
     public function up(): void
     {
-        //Tabla distrito (Ubicacion)
-        Schema::create('districts', function (Blueprint $table) {
+        // Tabla de porcentajes de viáticos
+        Schema::create('porcentajes', function (Blueprint $table) {
             $table->id();
-            $table->string('district', 100);
+            $table->decimal('porcentaje', 5, 2)->unsigned()->unique();
             $table->timestamps();
-            $table->softDeletes(); // For soft deletion (deleted_at column)
+            $table->softDeletes(); // Borrado lógico
         });
     }
 
     /**
-     * Reverse the migrations.
+     * Revertir las migraciones.
      */
     public function down(): void
     {
-        Schema::dropIfExists('districts');
+        Schema::dropIfExists('porcentajes');
     }
 };

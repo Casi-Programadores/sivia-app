@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('travel_expense_request_details', function (Blueprint $table) {
+        Schema::create('detalles_solicitudes_viaticos', function (Blueprint $table) {
             $table->id();
             
             // Claves Foráneas
-            $table->foreignId('request_status_id')->constrained('request_statuses');
-            $table->foreignId('travel_expense_request_id')->unique()->constrained('travel_expense_requests')->onDelete('cascade');
-            $table->foreignId('entry_desk_id')->nullable()->constrained('entry_desks');
-            $table->foreignId('resolution_id')->nullable()->constrained('general_secretariat_resolutions');
+            $table->foreignId('estado_solicitud_id')->constrained('estados_solicitudes');
+            $table->foreignId('solicitud_viatico_id')->unique()->constrained('solicitudes_viaticos')->onDelete('cascade');
+            $table->foreignId('mesa_entrada_id')->nullable()->constrained('mesas_entradas');
+            $table->foreignId('resolucion_id')->nullable()->constrained('resoluciones_secretaria_general');
             
             // Un detalle de viático DEBE ser único por solicitud
             $table->timestamps();
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('travel_expense_request_details');
+        Schema::dropIfExists('detalles_solicitudes_viaticos');
     }
 };

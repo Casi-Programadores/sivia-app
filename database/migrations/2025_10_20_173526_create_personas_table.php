@@ -7,27 +7,27 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecutar las migraciones.
      */
     public function up(): void
     {
-        Schema::create('people', function (Blueprint $table) {
+        Schema::create('personas', function (Blueprint $table) {
             $table->id();
 
-            $table->string('first_name', 100);
-            $table->string('last_name', 100);
+            $table->string('nombre', 100);
+            $table->string('apellido', 100);
             $table->string('dni', 20)->nullable()->unique();
 
             $table->timestamps();
-            $table->softDeletes(); // For soft deletion (deleted_at column)
+            $table->softDeletes(); // Borrado lógico
         });
     }
 
     /**
-     * Reverse the migrations.
+     * Revertir las migraciones.
      */
     public function down(): void
     {
-        Schema::dropIfExists('people');
+        Schema::dropIfExists('personas');
     }
 };

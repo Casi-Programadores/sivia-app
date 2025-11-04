@@ -11,10 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('resoluciones_secretaria_general', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre_rol');
+            
+            $table->integer('numero_resolucion')->unique(); // Número de Resolución
+            $table->date('fecha_resolucion'); // Fecha de la Resolución
+
             $table->timestamps();
+            $table->softDeletes(); // Borrado Lógico
         });
     }
 
@@ -23,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('resoluciones_secretaria_general');
     }
 };

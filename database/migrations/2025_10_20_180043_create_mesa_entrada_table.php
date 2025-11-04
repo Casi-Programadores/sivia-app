@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('classes', function (Blueprint $table) {
+        //Mesa de entrada
+        Schema::create('mesa_entrada', function (Blueprint $table) {
             $table->id();
-            $table->string('class_number')->unique(); // Numero de la clase
-            $table->string('class_name', 100)->unique(); // Nombre de la clase/Rango
-            
+
+            $table->string('letra', 50);
+            $table->integer('numero_expediente')->unique(); // Número de Expediente
+
             $table->timestamps();
-            $table->softDeletes(); // For soft deletion (deleted_at column)
+            $table->softDeletes(); // Borrado Lógico
         });
     }
 
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('classes');
+        Schema::dropIfExists('mesa_entrada');
     }
 };

@@ -7,24 +7,23 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecutar las migraciones.
      */
     public function up(): void
     {
-        //Tabla de porcentajes de liquides
-        Schema::create('percentages', function (Blueprint $table) {
+        Schema::create('clases', function (Blueprint $table) {
             $table->id();
-            $table->decimal('percentage', 5, 2)->unsigned()->unique();
+            $table->string('numero_clase')->unique(); // Número de la clase
             $table->timestamps();
-            $table->softDeletes(); // For soft deletion (deleted_at column)
+            $table->softDeletes(); // Borrado lógico
         });
     }
 
     /**
-     * Reverse the migrations.
+     * Revertir las migraciones.
      */
     public function down(): void
     {
-        Schema::dropIfExists('percentages');
+        Schema::dropIfExists('clases');
     }
 };

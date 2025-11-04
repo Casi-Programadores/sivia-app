@@ -11,16 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //Mesa de entrada
-        Schema::create('entry_desks', function (Blueprint $table) {
+        Schema::create('numero_nota_interna', function (Blueprint $table) {
             $table->id();
-
-            $table->string('letter', 50);
-            $table->string('file_number', 50)->unique(); // Número de Expediente
-            $table->date('entry_date'); // Fecha de la Mesa de Entradas
-
+            $table->integer('numero');
             $table->timestamps();
-            $table->softDeletes(); // Borrado Lógico
+            $table->softDeletes();
         });
     }
 
@@ -29,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('entry_desks');
+        Schema::dropIfExists('numero_nota_interna');
     }
 };

@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         //Tabla departamento del empleado
-        Schema::create('departments', function (Blueprint $table) {
+        Schema::create('departmentos', function (Blueprint $table) {
             $table->id();
-            $table->string('department', 100);
+            $table->string('departmento', 100);
             $table->timestamps();
             $table->softDeletes(); // For soft deletion (deleted_at column)
         });
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('departments');
+        Schema::dropIfExists('departmentos');
     }
 };

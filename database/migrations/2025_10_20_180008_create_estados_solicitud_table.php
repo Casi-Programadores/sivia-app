@@ -7,26 +7,24 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecutar las migraciones.
      */
     public function up(): void
     {
-        Schema::create('general_secretariat_resolutions', function (Blueprint $table) {
+        Schema::create('estados_solicitudes', function (Blueprint $table) {
             $table->id();
+            $table->string('nombre_estado', 50)->unique(); // Ejemplo: "Pendiente", "Aprobado", "Rechazado"
             
-            $table->string('resolution_number', 50)->unique(); // Número de Resolución
-            $table->date('resolution_date'); // Fecha de la Resolución
-
             $table->timestamps();
             $table->softDeletes(); // Borrado Lógico
         });
     }
 
     /**
-     * Reverse the migrations.
+     * Revertir las migraciones.
      */
     public function down(): void
     {
-        Schema::dropIfExists('general_secretariat_resolutions');
+        Schema::dropIfExists('estados_solicitudes');
     }
 };
