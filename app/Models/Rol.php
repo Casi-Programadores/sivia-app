@@ -5,8 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Departamento extends Model
+class Rol extends Model
 {
-    protected $table = 'departamentos';
+    protected $table = 'roles';
+    protected $fillable = ['nombre_rol'];
     use SoftDeletes;
 }
