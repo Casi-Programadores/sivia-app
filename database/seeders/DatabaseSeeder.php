@@ -15,12 +15,12 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
-        $rol = Rol::firstOrCreate(['nombre_rol' => 'Admin']);
+        $role = Rol::firstOrCreate(['nombre_rol' => 'Admin']);
 
         User::factory()->create([
             ' ' => 'Test User',
             'email' => 'test@example.com',
-            'role_id' => '',
+            'role_id' => 1,
         ]);
     }
 }
