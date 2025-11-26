@@ -1,89 +1,125 @@
-<div class="p-4">
-    <h1 class="text-xl font-bold mb-4">Gestión de Empleados</h1>
+<div class="p-6 bg-gray-50 min-h-screen text-gray-900">
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="text-2xl font-bold text-black">👥 Gestión de Empleados</h1>
+        <button 
+            wire:click="create" 
+            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-sm transition-all">
+            + Nuevo Empleado
+        </button>
+    </div>
 
-    <button wire:click="create" class="bg-blue-500 text-white px-3 py-1 rounded">Nuevo Empleado</button>
+    <!-- Tabla -->
+    <div class="overflow-x-auto bg-white rounded-lg shadow-sm">
+        <table class="w-full border-collapse">
+            <thead>
+                <tr class="bg-gray-100 text-black uppercase text-sm">
+                    <th class="px-4 py-2">Legajo</th>
+                    <th class="px-4 py-2">Nombre</th>
+                    <th class="px-4 py-2">Rol</th>
+                    <th class="px-4 py-2">Clase</th>
+                    <th class="px-4 py-2">Departamento</th>
+                    <th class="px-4 py-2 text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y">
+                @forelse($empleados as $e)
+                    <tr class="hover:bg-gray-50 text-black">
+                        <td class="px-4 py-2">{{ $e->n_legajo }}</td>
+                        <td class="px-4 py-2">{{ $e->persona->nombre }} {{ $e->persona->apellido }}</td>
+                        <td class="px-4 py-2">{{ $e->rol->numero ?? '-' }}</td>
+                        <td class="px-4 py-2">{{ $e->clase->numero ?? '-' }}</td>
+                        <td class="px-4 py-2">{{ $e->departamento->nombre ?? '-' }}</td>
+                        <td class="px-4 py-2 text-center">
+                            <button 
+                                wire:click="edit({{ $e->id_empleado }})" 
+                                class="text-blue-700 hover:text-blue-900 font-semibold">
+                                ✏️ Editar
+                            </button>
+                            <button 
+                                wire:click="delete({{ $e->id_empleado }})" 
+                                class="text-red-700 hover:text-red-900 font-semibold ml-3">
+                                🗑 Eliminar
+                            </button>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="6" class="text-center text-gray-600 py-4 font-medium">
+                            No hay empleados registrados.
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 
-    <table class="w-full mt-4 border">
-        <thead>
-            <tr class="bg-gray-200 text-left">
-                <th>Legajo</th>
-                <th>Nombre</th>
-                <th>Rol</th>
-                <th>Clase</th>
-                <th>Departamento</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($empleados as $e)
-            <tr>
-                <td>{{ $e->n_legajo }}</td>
-                <td>{{ $e->persona->nombre }} {{ $e->persona->apellido }}</td>
-                <td>{{ $e->rol->numero ?? '-' }}</td>
-                <td>{{ $e->clase->numero ?? '-' }}</td>
-                <td>{{ $e->departamento->nombre ?? '-' }}</td>
-                <td>
-                    <button wire:click="edit({{ $e->id_empleado }})" class="text-blue-600">Editar</button>
-                    <button wire:click="delete({{ $e->id_empleado }})" class="text-red-600 ml-2">Eliminar</button>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-
+    <!-- Modal -->
     @if($modal)
-    <div class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
-        <div class="bg-white p-4 rounded shadow-lg w-1/3">
-            <h2 class="text-lg font-semibold mb-3">{{ $selected_id ? 'Editar' : 'Nuevo' }} Empleado</h2>
+    <div class="fixed inset-0 bg-gray-800 bg-opacity-40 flex items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md text-gray-900">
+            <h2 class="text-xl font-semibold mb-4 text-black">
+                {{ $selected_id ? 'Editar' : 'Nuevo' }} Empleado
+            </h2>
 
-            <div class="mb-2">
-                <label>Persona</label>
-                <select wire:model="persona_id" class="w-full border rounded">
-                    <option value="">Seleccionar...</option>
-                    @foreach($personas as $p)
-                        <option value="{{ $p->id_persona }}">{{ $p->nombre }} {{ $p->apellido }}</option>
-                    @endforeach
-                </select>
+            <!-- Formulario -->
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-sm font-semibold text-black mb-1">Persona</label>
+                    <select wire:model="persona_id" class="w-full border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">Seleccionar...</option>
+                        @foreach($personas as $p)
+                            <option value="{{ $p->id_persona }}">{{ $p->nombre }} {{ $p->apellido }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-black mb-1">Legajo</label>
+                    <input wire:model="n_legajo" type="text" class="w-full border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-gray-900">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-black mb-1">Rol</label>
+                    <select wire:model="rol_id" class="w-full border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">Seleccionar...</option>
+                        @foreach($roles as $r)
+                            <option value="{{ $r->id_rol }}">{{ $r->numero }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-black mb-1">Clase</label>
+                    <select wire:model="clase_id" class="w-full border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">Seleccionar...</option>
+                        @foreach($clases as $c)
+                            <option value="{{ $c->id_clase }}">{{ $c->numero }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-black mb-1">Departamento</label>
+                    <select wire:model="departamento_id" class="w-full border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">Seleccionar...</option>
+                        @foreach($departamentos as $d)
+                            <option value="{{ $d->id_departamento }}">{{ $d->nombre }}</option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
 
-            <div class="mb-2">
-                <label>Legajo</label>
-                <input wire:model="n_legajo" class="w-full border rounded">
-            </div>
-
-            <div class="mb-2">
-                <label>Rol</label>
-                <select wire:model="rol_id" class="w-full border rounded">
-                    <option value="">Seleccionar...</option>
-                    @foreach($roles as $r)
-                        <option value="{{ $r->id_rol }}">{{ $r->numero }}</option>
-                    @endforeach
-                </select>
-            </div>
-
-            <div class="mb-2">
-                <label>Clase</label>
-                <select wire:model="clase_id" class="w-full border rounded">
-                    <option value="">Seleccionar...</option>
-                    @foreach($clases as $c)
-                        <option value="{{ $c->id_clase }}">{{ $c->numero }}</option>
-                    @endforeach
-                </select>
-            </div>
-
-            <div class="mb-2">
-                <label>Departamento</label>
-                <select wire:model="departamento_id" class="w-full border rounded">
-                    <option value="">Seleccionar...</option>
-                    @foreach($departamentos as $d)
-                        <option value="{{ $d->id_departamento }}">{{ $d->nombre }}</option>
-                    @endforeach
-                </select>
-            </div>
-
-            <div class="flex justify-end">
-                <button wire:click="$set('modal', false)" class="px-3 py-1 bg-gray-400 text-white rounded">Cancelar</button>
-                <button wire:click="store" class="px-3 py-1 bg-green-600 text-white rounded ml-2">Guardar</button>
+            <div class="flex justify-end mt-5 space-x-2">
+                <button 
+                    wire:click="$set('modal', false)" 
+                    class="px-4 py-2 bg-gray-400 hover:bg-gray-500 text-white rounded-lg transition">
+                    Cancelar
+                </button>
+                <button 
+                    wire:click="store" 
+                    class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition">
+                    Guardar
+                </button>
             </div>
         </div>
     </div>
