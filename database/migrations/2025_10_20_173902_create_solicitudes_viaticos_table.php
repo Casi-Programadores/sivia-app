@@ -30,6 +30,7 @@ return new class extends Migration
             $table->dateTime('fecha_fin');
             $table->string('objeto_comision', 255);
             $table->text('observacion')->nullable();
+            $table->string('provincia', 100)->nullable();
 
             $table->timestamps();
             $table->softDeletes(); // Borrado lógico
