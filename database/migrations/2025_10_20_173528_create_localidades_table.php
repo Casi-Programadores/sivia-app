@@ -7,20 +7,21 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecutar las migraciones.
      */
     public function up(): void
     {
+        // Tabla de distritos (ubicación)
         Schema::create('localidades', function (Blueprint $table) {
             $table->id();
-            $table->string('distrito', 100);
+            $table->string('nombre_localidades', 100);
             $table->timestamps();
             $table->softDeletes(); // Borrado lógico
         });
     }
 
     /**
-     * Reverse the migrations.
+     * Revertir las migraciones.
      */
     public function down(): void
     {
