@@ -6,9 +6,8 @@ use App\Livewire\Settings\Profile;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Empleados\Index as EmpleadosIndex;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+
+Route::redirect('/', '/login')->name('home');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
@@ -36,3 +35,4 @@ Route::get('/empleados', EmpleadosIndex::class)->name('empleados.index');
 
 
 require __DIR__.'/auth.php';
+

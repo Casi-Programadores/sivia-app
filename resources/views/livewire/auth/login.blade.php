@@ -1,52 +1,71 @@
 <div class="flex flex-col gap-6">
-    <x-auth-header :title="__('Log in to your account')" :description="__('Enter your email and password below to log in')" />
 
-    <!-- Session Status -->
+    {{-- Logo institucional (centrado y más arriba) --}}
+    <div class="flex justify-center -mt-12 mb-2">
+        <img src="{{ asset('images/logo-vialidad.png') }}" 
+        alt="Logo DPV Formosa" 
+        class="w-30 h-30 rounded-full shadow-md ring-1 ring-indigo-500/40">
+    </div>
+
+    {{-- Encabezado --}}
+    <x-auth-header 
+        :title="__('Iniciar Sesión')" 
+        :description="__('Ingresa tus datos para acceder a tu cuenta')" 
+    />
+
+    {{-- Estado de sesión --}}
     <x-auth-session-status class="text-center" :status="session('status')" />
 
+    {{-- Formulario --}}
     <form method="POST" wire:submit="login" class="flex flex-col gap-6">
-        <!-- Email Address -->
+        @csrf
+
+        {{-- Correo --}}
         <flux:input
             wire:model="email"
-            :label="__('Email address')"
+            :label="__('Correo Electrónico')"
             type="email"
             required
             autofocus
             autocomplete="email"
-            placeholder="email@example.com"
+            placeholder="tu@correo.com"
         />
 
-        <!-- Password -->
+        {{-- Contraseña --}}
         <div class="relative">
             <flux:input
                 wire:model="password"
-                :label="__('Password')"
+                :label="__('Contraseña')"
                 type="password"
                 required
                 autocomplete="current-password"
-                :placeholder="__('Password')"
+                :placeholder="__('Tu contraseña')"
                 viewable
             />
-
+		    {{--        
             @if (Route::has('password.request'))
                 <flux:link class="absolute end-0 top-0 text-sm" :href="route('password.request')" wire:navigate>
-                    {{ __('Forgot your password?') }}
-                </flux:link>
-            @endif
+             {{ __('¿Olvidaste tu contraseña?') }}
+             </flux:link>
+            @endif  --}}
         </div>
 
-        <!-- Remember Me -->
-        <flux:checkbox wire:model="remember" :label="__('Remember me')" />
+        {{-- Recordarme --}}
+        <flux:checkbox wire:model="remember" :label="__('Recordarme')" />
 
+        {{-- Botón de envío --}}
         <div class="flex items-center justify-end">
-            <flux:button variant="primary" type="submit" class="w-full">{{ __('Log in') }}</flux:button>
+            <flux:button variant="primary" type="submit" class="w-full bg-gray-900 hover:bg-gray-800 dark:bg-gray-500 dark:hover:bg-gray-200">
+                {{ __('Iniciar Sesión') }}
+            </flux:button>
         </div>
     </form>
-
+    {{-- 
     @if (Route::has('register'))
         <div class="space-x-1 rtl:space-x-reverse text-center text-sm text-zinc-600 dark:text-zinc-400">
             <span>{{ __('Don\'t have an account?') }}</span>
             <flux:link :href="route('register')" wire:navigate>{{ __('Sign up') }}</flux:link>
         </div>
-    @endif
+    @endif 
+    --}}
 </div>
