@@ -16,14 +16,13 @@ class Localidad extends Model
      * Columnas que se pueden llenar masivamente
      */
     protected $fillable = [
-        'nombre_localidad',
+        'nombre_localidades',
     ];
 
     /**
-     * Relaciones (si tenés otras tablas relacionadas)
+     * Relaciones
      */
 
-    // Ejemplo: una localidad puede tener muchas solicitudes de viáticos
     public function solicitudesViaticos()
     {
         return $this->hasMany(SolicitudViatico::class, 'localidad_id');

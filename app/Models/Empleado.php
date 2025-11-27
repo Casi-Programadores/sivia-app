@@ -30,6 +30,16 @@ class Empleado extends Model
     public function clase() {
         return $this->belongsTo(Clase::class, 'clase_id');
     }
+
+        public function solicitudesViaticos()
+    {
+        return $this->belongsToMany(
+            SolicitudViatico::class,
+            'empleado_solicitud_viatico',
+            'empleado_id',
+            'solicitud_viatico_id'
+        )->withTimestamps();
+    }
     
     use SoftDeletes;
 

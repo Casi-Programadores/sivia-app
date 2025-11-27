@@ -5,6 +5,7 @@ use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Empleados\Index as EmpleadosIndex;
+use App\Livewire\Solicitudes\FormularioSolicitudViatico;
 
 
 Route::redirect('/', '/login')->name('home');
@@ -24,6 +25,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/usuario-table', function(){
         return view('usuarios.index');
     });
+
+   Route::get('/solicitudes/crear', FormularioSolicitudViatico::class)
+    ->name('solicitudes.crear');
+
 });
 
 

@@ -17,10 +17,13 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
         $role = Rol::firstOrCreate(['nombre_rol' => 'Admin']);
 
-        User::factory()->create([
+       /* User::factory()->create([
             ' ' => 'Test User',
             'email' => 'test@example.com',
             'role_id' => 1,
-        ]);
+        ]);*/
+
+        $this->call(DatosInicialesSeeder::class);
     }
+    
 }
