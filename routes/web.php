@@ -26,13 +26,10 @@ Route::middleware(['auth'])->group(function () {
         return view('usuarios.index');
     });
 
-   Route::get('/solicitudes/crear', FormularioSolicitudViatico::class)
+    Route::get('/solicitudes/crear', FormularioSolicitudViatico::class)
     ->name('solicitudes.crear');
 
 });
-
-
-
 
 require __DIR__.'/auth.php';
 
