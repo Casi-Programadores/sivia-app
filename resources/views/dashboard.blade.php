@@ -2,7 +2,7 @@
     <div class="flex h-full w-full flex-1 flex-col gap-8">
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <a href="#"
+                <a href="{{ route('solicitudes.crear') }}"
                 class="group rounded-2xl border border-blue-900 dark:border-blue-400
                 bg-gray dark:bg-zinc-800 shadow-lg shadow-[rgba(20,36,72,0.20)] 
                 dark:shadow-[rgba(0,0,0,0.50)] p-8 flex flex-col items-center justify-center gap-5 

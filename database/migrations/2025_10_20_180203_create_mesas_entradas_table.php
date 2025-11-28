@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         //Mesa de entrada
-        Schema::create('mesa_entrada', function (Blueprint $table) {
+        Schema::create('mesas_entradas', function (Blueprint $table) {
             $table->id();
 
             $table->string('letra', 50);
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mesa_entrada');
+        Schema::dropIfExists('mesas_entradas');
     }
 };
