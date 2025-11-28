@@ -1,20 +1,27 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         @include('partials.head')
     </head>
     <body class="min-h-screen bg-white dark:bg-zinc-800">
-        <flux:sidebar sticky stashable class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
+        
+        <flux:sidebar sticky stashable class="border-e border-slate-700 bg-[#142448] dark text-white">
+            
             <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 
-            <a href="{{ route('dashboard') }}" class="me-5 flex items-center space-x-2 rtl:space-x-reverse" wire:navigate>
-                <x-app-logo />
+            <a href="{{ route('dashboard') }}" class="me-5 flex items-center space-x-2 rtl:space-x-reverse text-white" wire:navigate>
+                <x-app-logo class="fill-current text-white" />
             </a>
 
             <flux:navlist variant="outline">
-                <flux:navlist.group :heading="__('Platform')" class="grid">
-                    <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
+
+                <div class="h-px w-full bg-white/20 my-4"></div>
+                <flux:navlist.group class="grid">
+                    <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
+                        {{ __('Dashboard') }}
+                    </flux:navlist.item>
                 </flux:navlist.group>
+                
             </flux:navlist>
 
             <flux:spacer />
@@ -29,45 +36,55 @@
                 </flux:navlist.item>
             </flux:navlist>
 
-            <!-- Desktop User Menu -->
             <flux:dropdown class="hidden lg:block" position="bottom" align="start">
-                <flux:profile
-                    :name="auth()->user()->name"
-                    :initials="auth()->user()->initials()"
-                    icon:trailing="chevrons-up-down"
-                />
+                
+                <button class="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-white/10 transition-colors text-left group cursor-pointer">
+                    
+                    <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white border border-slate-600 text-blue-900 font-medium group-hover:bg-slate-300 transition">
+                        {{ auth()->user()->initials() }}
+                    </div>
 
-                <flux:menu class="w-[220px]">
+                    <div class="grid flex-1 text-start text-sm leading-tight overflow-hidden">
+                        <span class="truncate font-semibold text-white">{{ auth()->user()->name }}</span>
+                    </div>
+
+                    <flux:icon.chevrons-up-down class="size-4 text-zinc-400" />
+                </button>
+
+
+                <flux:menu class="w-[220px] !bg-[#162953] !border !border-white">
+                    
                     <flux:menu.radio.group>
                         <div class="p-0 text-sm font-normal">
                             <div class="flex items-center gap-2 px-1 py-1.5 text-start text-sm">
+                                
                                 <span class="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-lg">
-                                    <span
-                                        class="flex h-full w-full items-center justify-center rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white"
-                                    >
+                                    <span class="flex h-full w-full items-center justify-center rounded-lg bg-white text-blue-900 font-bold border border-white">
                                         {{ auth()->user()->initials() }}
                                     </span>
                                 </span>
 
                                 <div class="grid flex-1 text-start text-sm leading-tight">
-                                    <span class="truncate font-semibold">{{ auth()->user()->name }}</span>
-                                    <span class="truncate text-xs">{{ auth()->user()->email }}</span>
+                                    <span class="truncate font-semibold text-white">{{ auth()->user()->name }}</span>
+                                    <span class="truncate text-xs text-slate-400">{{ auth()->user()->email }}</span>
                                 </div>
                             </div>
                         </div>
                     </flux:menu.radio.group>
 
-                    <flux:menu.separator />
+                    <flux:menu.separator class="!bg-slate-100" />
 
                     <flux:menu.radio.group>
-                        <flux:menu.item :href="route('settings.profile')" icon="cog" wire:navigate>{{ __('Settings') }}</flux:menu.item>
+                        <flux:menu.item :href="route('settings.profile')" icon="cog" wire:navigate class="!text-zinc-200 hover:!bg-white/10 hover:!text-white">
+                            {{ __('Settings') }}
+                        </flux:menu.item>
                     </flux:menu.radio.group>
 
-                    <flux:menu.separator />
+                    <flux:menu.separator class="!bg-slate" />
 
                     <form method="POST" action="{{ route('logout') }}" class="w-full">
                         @csrf
-                        <flux:menu.item as="button" type="submit" icon="arrow-right-start-on-rectangle" class="w-full">
+                        <flux:menu.item as="button" type="submit" icon="arrow-right-start-on-rectangle" class="w-full !text-zinc-200 hover:!bg-white/10 hover:!text-white">
                             {{ __('Log Out') }}
                         </flux:menu.item>
                     </form>
@@ -75,8 +92,7 @@
             </flux:dropdown>
         </flux:sidebar>
 
-        <!-- Mobile User Menu -->
-        <flux:header class="lg:hidden">
+        <flux:header class="lg:hidden bg-white border-b border-zinc-200">
             <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
 
             <flux:spacer />
@@ -126,7 +142,9 @@
         </flux:header>
 
         {{ $slot }}
+        
 
         @fluxScripts
+        
     </body>
 </html>
