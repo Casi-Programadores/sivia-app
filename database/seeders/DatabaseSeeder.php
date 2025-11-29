@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
         ]);*/
 
         $this->call(DatosInicialesSeeder::class);
+        $this->call(RoleAndUserSeeder::class);
     }
     
 }

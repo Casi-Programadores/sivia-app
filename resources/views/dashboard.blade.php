@@ -52,7 +52,7 @@
             </a>
 
 
-           <a href="#"
+           <a href="{{ route('empleados.empleado') }}"
             class="group rounded-2xl border 
                     border-blue-900 dark:border-blue-400
                     bg-white dark:bg-zinc-800
@@ -84,7 +84,7 @@
             <h2 class="text-[#1e293b] text-xl font-bold mb-4">Ultimas Solicitudes</h2>
             
             <div class="bg-white rounded-xl border border-neutral-200 dark:border-neutral-700 min-h-[200px] flex items-center justify-center">
-                 <span class="text-gray-400">Aquí irá la tabla de solicitudes</span>
+                <span class="text-gray-400">Aquí irá la tabla de solicitudes</span>
             </div>
         </div>
 
