@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class DatosInicialesSeeder extends Seeder
 {
@@ -13,6 +14,16 @@ class DatosInicialesSeeder extends Seeder
         DB::table('roles')->insert([
             ['nombre_rol' => 'Administrador', 'created_at' => now(), 'updated_at' => now()],
             ['nombre_rol' => 'Usuario', 'created_at' => now(), 'updated_at' => now()],
+        ]);
+
+        // Usuario 
+        DB::table('users')->insert([
+            'name' => 'Admin',
+            'email' => 'admin@email.com',
+            'password' => Hash::make('12345678'),
+            'role_id' => 1, // Relacionado al rol Administrador
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
         // Departamentos

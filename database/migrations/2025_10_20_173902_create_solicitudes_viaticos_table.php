@@ -18,11 +18,9 @@ return new class extends Migration
 
             // Claves foráneas
             $table->foreignId('porcentaje_id')->constrained('porcentajes');
-            $table->foreignId('distrito_id')->constrained('distritos');
+            $table->foreignId('distrito_id')->nullable()->constrained('distritos');
 
-            $table->foreignId('localidad_id')
-                ->constrained('localidades')
-                ->onDelete('cascade');
+            $table->foreignId('localidad_id')->nullable()->constrained('localidades');
 
             $table->decimal('monto', 10, 2); // Monto diario o monto base
             $table->decimal('monto_total', 10, 2);

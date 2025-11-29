@@ -29,6 +29,7 @@ class FormularioSolicitudViatico extends Component
 
     public function mount()
     {
+        $this->form->reset();
         $this->notas_internas = NumeroNotaInterna::all();
         $this->porcentajes = Porcentaje::all();
         $this->distritos = Distrito::all();
@@ -41,7 +42,8 @@ class FormularioSolicitudViatico extends Component
         if (
             str_contains($propertyName, 'form.cantidad_dias') ||
             str_contains($propertyName, 'form.monto') ||
-            str_contains($propertyName, 'form.empleados_agregados')
+            str_contains($propertyName, 'form.empleados_agregados') ||
+            str_contains($propertyName, 'form.porcentaje_id')
         ) {
             $this->form->calcularTotal();
         }
@@ -81,7 +83,6 @@ class FormularioSolicitudViatico extends Component
         // Guardamos el ID generado
         $this->solicitudGeneradaId = $solicitud->id;
 
-        // Solo limpiar validaciones, NO el form completo
         $this->form->resetValidation();
 
         // Mostrar modal

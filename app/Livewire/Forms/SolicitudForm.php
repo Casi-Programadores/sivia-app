@@ -4,16 +4,14 @@ namespace App\Livewire\Forms;
 
 use Livewire\Form;
 use Livewire\Attributes\Rule;
-use Livewire\Attributes\Validate;
 use App\Models\SolicitudViatico;
 use App\Models\DetalleSolicitudViatico; 
 use App\Models\EstadoSolicitud;
+use App\Models\Porcentaje;
 use Illuminate\Support\Facades\DB;
 
 class SolicitudForm extends Form
 {
-    // Definimos las reglas directamente en las propiedades (Novedad de Livewire 3)
-    
     #[Rule('required|exists:numero_nota_interna,id')]
     public $numero_nota_interna_id;
 
@@ -23,18 +21,21 @@ class SolicitudForm extends Form
     #[Rule('required|exists:porcentajes,id')]
     public $porcentaje_id;
 
-    #[Rule('required|exists:distritos,id')]
+    // --- CAMBIO AQUÍ: Validación Condicional ---
+    // "Requerido si 'es_fuera_provincia' es falso (o sea, es local)"
+    #[Rule('required_unless:es_fuera_provincia,true|nullable|exists:distritos,id')]
     public $distrito_id;
 
-    #[Rule('required|exists:localidades,id')]
+   #[Rule('required_unless:es_fuera_provincia,true|nullable|exists:localidades,id')]
     public $localidad_id;
+    // -------------------------------------------
 
     #[Rule('required|numeric|min:0')]
     public $monto = 0;
 
-    // Calculado (readonly), no requiere validación de entrada
     public $monto_total = 0; 
 
+    // Validación de fecha: no anterior a hoy
     #[Rule('required|date|after_or_equal:today')]
     public $fecha_fin;
 
@@ -44,46 +45,51 @@ class SolicitudForm extends Form
     #[Rule('nullable|string')]
     public $observacion;
 
-    // Lógica de provincia
     public $es_fuera_provincia = false; 
     
     #[Rule('required_if:es_fuera_provincia,true|nullable|string|max:100')]
     public $nombre_provincia;
 
-    // Empleados (Array)
     #[Rule('required|array|min:1', message: 'Debe agregar al menos un empleado a la solicitud.')]
     public $empleados_agregados = [];
-
-    // --- MÉTODOS DE LÓGICA ---
 
     public function calcularTotal()
     {
         $dias = (int) $this->cantidad_dias;
         $montoBase = (float) $this->monto;
         $cantidadPersonas = count($this->empleados_agregados);
-
-
         $factorPersonas = $cantidadPersonas > 0 ? $cantidadPersonas : 0;
 
-        $this->monto_total = ($montoBase * $dias) * $factorPersonas;
+        $valorPorcentaje = 100; // Por defecto
+        
+        if ($this->porcentaje_id) {
+            $pct = Porcentaje::find($this->porcentaje_id);
+            if ($pct) {
+                $valorPorcentaje = (float) $pct->porcentaje;
+            }
+        }
+
+        // 2. Aplicamos la fórmula:
+        // (Monto Diario * (Porcentaje / 100)) * Días * Personas
+        $montoDiarioAjustado = $montoBase * ($valorPorcentaje / 100);
+
+        $this->monto_total = ($montoDiarioAjustado * $dias) * $factorPersonas;
     }
 
     public function store()
     {
         $this->validate();
 
-        // Variable donde guardaremos la solicitud creada
         $solicitud = null;
 
         DB::transaction(function () use (&$solicitud) {
 
-            // 1. Crear la Solicitud Principal
             $solicitud = SolicitudViatico::create([
                 'numero_nota_interna_id' => $this->numero_nota_interna_id,
                 'cantidad_dias'          => $this->cantidad_dias,
                 'porcentaje_id'          => $this->porcentaje_id,
-                'distrito_id'            => $this->distrito_id,
-                'localidad_id'           => $this->localidad_id,
+                'distrito_id' => $this->es_fuera_provincia ? null : $this->distrito_id,
+                'localidad_id' => $this->es_fuera_provincia ? null : $this->localidad_id,                
                 'monto'                  => $this->monto,
                 'monto_total'            => $this->monto_total,
                 'fecha_fin'              => $this->fecha_fin,
@@ -92,10 +98,8 @@ class SolicitudForm extends Form
                 'provincia'              => $this->es_fuera_provincia ? $this->nombre_provincia : null,
             ]);
 
-            // 2. Asociar empleados
             $solicitud->empleados()->attach($this->empleados_agregados);
 
-            // 3. Estado inicial “Pendiente”
             $estadoPendiente = EstadoSolicitud::firstOrCreate([
                 'nombre_estado' => 'Pendiente'
             ]);
@@ -110,5 +114,4 @@ class SolicitudForm extends Form
 
         return $solicitud;
     }
-
 }
