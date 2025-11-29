@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class EstadosSolicitud extends Model
+class EstadoSolicitud extends Model
 {
-    protected $table = 'estados_solicitud';
+    protected $table = 'estados_solicitudes';
     use SoftDeletes;
 }

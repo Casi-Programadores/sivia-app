@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class DetalleSolicitudViatico extends Model
 {
-    protected $table = 'detalles_solicitud_viaticos';
+    protected $table = 'detalles_solicitudes_viaticos';
 
     protected $fillable = [
         'estado_solicitud_id',
