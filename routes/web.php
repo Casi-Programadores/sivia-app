@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\Empleados\Index as EmpleadosIndex;
 use App\Livewire\Solicitudes\FormularioSolicitudViatico;
 use App\Livewire\Solicitudes\VerSolicitudViatico;
+use App\Http\Controllers\PDFController;
+
 
 
 Route::redirect('/', '/login')->name('home');
@@ -31,6 +33,8 @@ Route::middleware(['auth'])->group(function () {
     ->name('solicitudes.crear');
 
     Route::get('/solicitudes/{solicitud}', VerSolicitudViatico::class)->name('solicitud.ver');
+    Route::get('solicitud/pdf/{id}', [PDFController::class, 'generarPDF'])->name('generar.pdf');
+
 
 
 });

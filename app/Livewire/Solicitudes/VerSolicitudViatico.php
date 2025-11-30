@@ -9,12 +9,11 @@ class VerSolicitudViatico extends Component
 {
     public SolicitudViatico $solicitud;
 
-    // Livewire 3 maneja el Route Model Binding automáticamente en el mount
     public function mount(SolicitudViatico $solicitud)
     {
         // Cargamos todas las relaciones para optimizar la vista
         $this->solicitud = $solicitud->load([
-            'empleados.persona', // Para ver nombres de los empleados
+            'empleados.persona', 
             'numeroNotaInterna',
             'distrito',
             'localidad',
@@ -26,4 +25,10 @@ class VerSolicitudViatico extends Component
     {
         return view('livewire.solicitudes.ver-solicitud-viatico');
     }
+
+    public function verPDF($id)
+    {
+        return redirect()->to("/solicitud/pdf/" . $id);
+    }
+    
 }

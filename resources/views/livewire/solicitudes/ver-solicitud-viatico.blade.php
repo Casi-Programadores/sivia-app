@@ -38,7 +38,7 @@
     {{-- CONTENIDO VISUAL --}}
     <div class="w-full bg-gray-100 p-4 md:p-8 overflow-y-auto font-sans">
         
-        <!-- BOTONERA (Se oculta al imprimir) -->
+        <!-- BOTONERA -->
         <div class="max-w-[21cm] mx-auto mb-6 flex justify-between items-center no-print">
             <a href="#" class="text-blue-600 hover:text-blue-800 font-bold flex items-center transition">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
@@ -46,12 +46,12 @@
                 </svg>
                 Volver al listado
             </a>
-            <button onclick="window.print()" class="bg-gray-900 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-gray-700 font-bold flex items-center transition transform hover:-translate-y-0.5">
+            <a href="{{ route('generar.pdf', $solicitud->id) }}" target="_blank" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                 </svg>
                 IMPRIMIR DOCUMENTO
-            </button>
+            </a>
         </div>
 
         <!-- HOJA A4 (Diseño idéntico a la foto) -->
@@ -91,7 +91,7 @@
                 Se solicita gestionar ante la Superioridad la autorización para Comisión de Servicios de los agentes mencionados seguidamente:
             </p>
 
-            <!-- TABLA DE EMPLEADOS (Rejilla exacta) -->
+            <!-- TABLA DE EMPLEADOS  -->
             <div class="border-2 border-black mb-6">
                 <table class="w-full text-[10px] text-center border-collapse">
                     <thead>

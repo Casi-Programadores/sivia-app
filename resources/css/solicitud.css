@@ -1,0 +1,180 @@
+body {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    color: #000;
+    margin: 0;
+    padding: 20px;
+}
+
+.hoja {
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* --- Encabezado alineado a la izquierda --- */
+.logos {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.logo-container {
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 5px;
+    margin-right: 10px;
+}
+
+.logo-texto {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 10px;
+    text-align: left;
+    line-height: 1.2;
+}
+
+.titulo-principal {
+    text-align: center;
+    /* --- Espacio para sello arriba del título --- */
+    margin: 150px 0 10px 0;
+}
+
+.titulo-principal h1 {
+    font-size: 15px;
+    font-weight: bold;
+    margin: 15px 0;
+    text-transform: uppercase;
+}
+
+.titulo-principal h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.fecha-lugar {
+    text-align: center;
+    font-size: 10px;
+    font-weight: bold;
+    margin: 15px 0 20px 0;
+    text-transform: uppercase;
+}
+
+.intro-texto {
+    font-size: 10px;
+    text-align: justify;
+    margin: 20px 0;
+    line-height: 1.4;
+}
+
+/* --- Tabla --- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 9px;
+}
+
+table th {
+    border: 1px solid #000;
+    padding: 5px 3px;
+    text-align: center;
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+table td {
+    border: 1px solid #000;
+    padding: 5px 3px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.text-left {
+    text-align: left;
+    padding-left: 5px;
+}
+
+.text-right {
+    text-align: right;
+    padding-right: 5px;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.campo-texto {
+    margin: 12px 0;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+.campo-texto strong {
+    font-weight: bold;
+}
+
+.linea-completar {
+    border-bottom: 1px dotted #000;
+    padding: 0 5px;
+    text-transform: uppercase;
+}
+
+.observaciones {
+    margin: 20px 0;
+    font-size: 10px;
+}
+
+/* --- Firmas --- */
+.tabla-firmas {
+    width: 100%;
+    margin-top: 150px;
+    border: none;
+}
+
+.tabla-firmas td {
+    border: none;
+    text-align: center;
+    vertical-align: top;
+    width: 50%;
+}
+
+.firma-linea {
+    border-top: 1px solid #000;
+    width: 200px;
+    margin: 0 auto;
+    padding-top: 5px;
+    font-size: 9px;
+    font-weight: bold;
+}
+
+.footer-texto {
+    margin-top: 30px;
+    font-size: 10px;
+    text-align: center;
+    line-height: 1.5;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.visto-considerando {
+    margin-top: 20px;
+    font-size: 10px;
+    text-align: justify;
+    line-height: 1.5;
+    border-top: 1px solid #000;
+    padding-top: 10px;
+}
+
+.visto-considerando p {
+    margin: 20px 0;
+    text-indent: 30px;
+}
+
+.resolucion {
+    margin-top: 30px;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 10px;
+    width: 200px;
+    text-align: center;
+}
