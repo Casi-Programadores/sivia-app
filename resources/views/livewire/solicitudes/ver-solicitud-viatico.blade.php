@@ -166,8 +166,8 @@
                             </div>
                             
                             <div class="mt-4 p-3 bg-blue-800 rounded-lg border border-blue-700">
-                                <p class="text-[10px] text-blue-200 uppercase font-medium leading-tight tracking-wide" id="monto-en-letras">
-                                    Calculando...
+                                <p class="text-[10px] text-blue-200 uppercase font-medium leading-tight tracking-wide">
+                                    {{ $montoEnLetras }}
                                 </p>
                             </div>
                         </div>
@@ -190,45 +190,4 @@
             </div>
         </div>
     </div>
-
-    {{-- SCRIPT JS (Sin cambios, solo preservado) --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const monto = {{ $solicitud->monto_total }};
-            document.getElementById('monto-en-letras').innerText = numeroALetras(monto);
-        });
-
-        function numeroALetras(num) {
-            const unidades = ['', 'UN', 'DOS', 'TRES', 'CUATRO', 'CINCO', 'SEIS', 'SIETE', 'OCHO', 'NUEVE'];
-            const decenas = ['', 'DIEZ', 'VEINTE', 'TREINTA', 'CUARENTA', 'CINCUENTA', 'SESENTA', 'SETENTA', 'OCHENTA', 'NOVENTA'];
-            const diez_x = ['', 'ONCE', 'DOCE', 'TRECE', 'CATORCE', 'QUINCE', 'DIECISEIS', 'DIECISIETE', 'DIECIOCHO', 'DIECINUEVE'];
-            const centenas = ['', 'CIENTO', 'DOSCIENTOS', 'TRESCIENTOS', 'CUATROCIENTOS', 'QUINIENTOS', 'SEISCIENTOS', 'SETECIENTOS', 'OCHOCIENTOS', 'NOVECIENTOS'];
-            
-            num = parseInt(num);
-            if (num === 0) return 'CERO PESOS';
-            
-            let texto = '';
-
-            if (num >= 1000) {
-                let miles = Math.floor(num / 1000);
-                texto += (miles === 1 ? 'MIL ' : numeroALetras(miles) + ' MIL ');
-                num %= 1000;
-            }
-            if (num >= 100) {
-                let c = Math.floor(num / 100);
-                texto += (num === 100 ? 'CIEN ' : centenas[c] + ' ');
-                num %= 100;
-            }
-            if (num > 0) {
-                if (num < 10) texto += unidades[num];
-                else if (num < 20) texto += diez_x[num - 10];
-                else {
-                    let d = Math.floor(num / 10), u = num % 10;
-                    texto += decenas[d];
-                    if (u > 0) texto += (d === 2 ? 'I' : ' Y ') + unidades[u];
-                }
-            }
-            return texto.trim() + ' PESOS'; 
-        }
-    </script>
 </div>

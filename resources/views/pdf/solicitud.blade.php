@@ -106,8 +106,8 @@
         <strong>OBJETO DE LA COMISIÓN:</strong> 
         <span class="linea-completar">
             {{ $solicitud->objeto_comision }} - 
-            LOCALIDAD: {{ $solicitud->localidad->nombre_localidades ?? 'VARIAS' }} - 
-            DISTRITO: {{ $solicitud->distrito->distrito ?? 'VARIOS' }}.-
+            LOCALIDAD: {{ $solicitud->localidad->nombre_localidades ?? '-' }} - 
+            DISTRITO: {{ $solicitud->distrito->distrito ?? '-' }}.-
         </span>
     </div>
 
