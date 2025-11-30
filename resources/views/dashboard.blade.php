@@ -80,16 +80,16 @@
 
         </div>
 
-        <div class="mt-4">
+<div class="mt-4">
             <h2 class="text-[#1e293b] text-xl font-bold mb-4">Ultimas Solicitudes</h2>
             
-            <div class="bg-white rounded-xl border border-neutral-200 dark:border-neutral-700 min-h-[200px] flex items-center justify-center">
-                 <span class="text-gray-400">Aquí irá la tabla de solicitudes</span>
-            </div>
+            {{-- AQUÍ INSERTAMOS EL COMPONENTE --}}
+            <livewire:solicitudes.ultimas-solicitudes-tabla />
+            
         </div>
 
         <!-- FOOTER -->
-        <footer class="w-full py-6 text-center">
+        <footer class="w-full py-2 text-center">
             <p class="text-sm text-zinc-600 dark:text-zinc-400">
                 Dirección Provincial de Vialidad • © 2025 SIVIA - APP
             </p>

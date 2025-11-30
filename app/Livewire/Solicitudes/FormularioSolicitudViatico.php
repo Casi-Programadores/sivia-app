@@ -24,7 +24,8 @@ class FormularioSolicitudViatico extends Component
     public $todos_empleados;
 
     // Variables para controlar el modal
-    public $showSuccessModal = false;
+    public $showSuccessModal = false;     
+    public $showConfirmationModal = false; 
     public $solicitudGeneradaId = null;
 
     public function mount()
@@ -75,8 +76,18 @@ class FormularioSolicitudViatico extends Component
         $this->form->calcularTotal();
     }
 
+        public function confirmarGuardado()
+    {
+        $this->form->validate();
+
+        $this->showConfirmationModal = true;
+    }
+
     public function save()
     {
+        // Cerramos el modal de confirmación
+        $this->showConfirmationModal = false;
+
         // Guardar solicitud
         $solicitud = $this->form->store();
 

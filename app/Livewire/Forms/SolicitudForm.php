@@ -23,10 +23,10 @@ class SolicitudForm extends Form
 
     // --- CAMBIO AQUÍ: Validación Condicional ---
     // "Requerido si 'es_fuera_provincia' es falso (o sea, es local)"
-    #[Rule('required_unless:es_fuera_provincia,true|nullable|exists:distritos,id')]
+    #[Rule('required_unless:es_fuera_provincia,true|nullable|exists:distritos,id', message: 'Distrito es obligatorio a menos que el destino sea fuera de la provincia.')]
     public $distrito_id;
 
-   #[Rule('required_unless:es_fuera_provincia,true|nullable|exists:localidades,id')]
+   #[Rule('required_unless:es_fuera_provincia,true|nullable|exists:localidades,id', message: 'Localidad es obligatorio a menos que el destino sea fuera de la provincia.')]
     public $localidad_id;
     // -------------------------------------------
 
@@ -52,6 +52,22 @@ class SolicitudForm extends Form
 
     #[Rule('required|array|min:1', message: 'Debe agregar al menos un empleado a la solicitud.')]
     public $empleados_agregados = [];
+
+    protected $validationAttributes = [
+    'numero_nota_interna_id' => 'número de nota interna',
+    'cantidad_dias'          => 'cantidad de días',
+    'porcentaje_id'          => 'porcentaje de liquidación',
+    'distrito_id'            => 'distrito',
+    'localidad_id'           => 'localidad',
+    'monto'                  => 'monto diario',
+    'monto_total'            => 'monto total',
+    'fecha_fin'              => 'fecha de fin',
+    'objeto_comision'        => 'objeto de la comisión',
+    'observacion'            => 'observación',
+    'nombre_provincia'       => 'nombre de la provincia',
+    'empleados_agregados'    => 'empleados agregados',
+];
+
 
     public function calcularTotal()
     {
