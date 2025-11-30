@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Solicitud de Viático Nº {{ $solicitud->id }}</title>
     
-    {{-- Vinculación al CSS externo usando public_path para DomPDF --}}
+    {{-- Vinculación al CSS externo usando resourse_path para DomPDF --}}
     <link rel="stylesheet" href="{{ resource_path('css/solicitud.css') }}">
     
 </head>

@@ -240,8 +240,8 @@
         
         <div class="relative bg-white rounded-xl p-8 w-full max-w-md shadow-2xl transform transition-all scale-100 border border-gray-100">
             <div class="text-center">
-                <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-blue-100 mb-6">
-                    <svg class="h-10 w-10 text-blue-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-6">
+                    <svg class="h-10 w-10 text-green-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                     </svg>
                 </div>
