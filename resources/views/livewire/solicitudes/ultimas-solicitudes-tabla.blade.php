@@ -1,9 +1,8 @@
 <div class="overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-sm">
     <table class="w-full text-sm text-left text-gray-600">
-        {{-- ENCABEZADO --}}
         <thead class="text-xs text-gray-700 uppercase bg-[#eef2f6]">
             <tr>
-                <th scope="col" class="px-6 py-4 font-bold text-gray-500">ID</th>
+                <th scope="col" class="px-6 py-4 font-bold text-gray-500">Nº</th>
                 <th scope="col" class="px-6 py-4 font-bold text-gray-500">DESTINO</th>
                 <th scope="col" class="px-6 py-4 font-bold text-gray-500">FECHA</th>
                 <th scope="col" class="px-6 py-4 font-bold text-gray-500">ESTADO</th>
@@ -11,83 +10,94 @@
             </tr>
         </thead>
         
-        {{-- CUERPO --}}
         <tbody class="divide-y divide-gray-100">
             @forelse ($solicitudes as $solicitud)
-                {{-- Lógica simulada de estado (ajústalo a tu modelo real) --}}
-                @php
-                    // Esto deberías traerlo de tu relación real, ej: $solicitud->ultimoDetalle->estado->nombre_estado
-                    // Para el ejemplo visual uso lógica aleatoria o fija
-                    $estado = 'Pendiente'; 
-                    if($loop->index == 1) $estado = 'Aprobada';
-                    if($loop->index == 2) $estado = 'Rechazada';
-                    if($loop->index == 3) $estado = 'Aprobada';
-                @endphp
-
                 <tr class="bg-white hover:bg-gray-50 transition-colors">
-                    {{-- ID --}}
-                    <td class="px-6 py-4 font-medium text-gray-900">
-                        {{ $solicitud->id }}
-                    </td>
-
-                    {{-- DESTINO --}}
+                    <td class="px-6 py-4 font-medium text-gray-900">{{ $solicitud->id }}</td>
                     <td class="px-6 py-4 text-gray-700 font-medium">
-                        @if($solicitud->provincia)
-                            {{ $solicitud->provincia }}
-                        @else
-                            {{ $solicitud->localidad->nombre_localidades ?? ($solicitud->distrito->distrito ?? '-') }}
-                        @endif
+                        @if($solicitud->provincia) {{ $solicitud->provincia }} @else {{ $solicitud->localidad->nombre_localidades ?? ($solicitud->distrito->distrito ?? '-') }} @endif
                     </td>
+                    <td class="px-6 py-4 text-gray-500">{{ $solicitud->created_at->format('Y-m-d') }}</td>
 
-                    {{-- FECHA --}}
-                    <td class="px-6 py-4 text-gray-500">
-                        {{ $solicitud->created_at->format('Y-m-d') }}
-                    </td>
-
-                    {{-- ESTADO (Badges de colores) --}}
+                    {{-- ESTADO --}}
                     <td class="px-6 py-4">
-                        @if($estado === 'Pendiente')
-                            <span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-bold shadow-sm border border-orange-200">
-                                Pendiente
-                            </span>
-                        @elseif($estado === 'Aprobada')
-                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold shadow-sm border border-green-200">
-                                Aprobada
-                            </span>
-                        @elseif($estado === 'Rechazada')
-                            <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-bold shadow-sm border border-red-200">
-                                Rechazada
-                            </span>
+                        @if($solicitud->nombre_estado === 'Pendiente')
+                            <span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-bold shadow-sm border border-orange-200">Pendiente</span>
+                        @elseif($solicitud->nombre_estado === 'Aprobada')
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold shadow-sm border border-green-200">Aprobada</span>
+                        @elseif($solicitud->nombre_estado === 'Cancelada')
+                            <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-bold shadow-sm border border-red-200">Cancelada</span>
                         @endif
                     </td>
 
                     {{-- ACCIONES --}}
                     <td class="px-6 py-4">
-                        @if($estado === 'Pendiente')
+                        @if($solicitud->nombre_estado === 'Pendiente')
                             <div class="flex items-center gap-2">
-                                {{-- Botón Continuar (Azul Oscuro) --}}
-                                <a href="{{ route('solicitud.ver', $solicitud->id) }}" class="bg-[#1e3a8a] hover:bg-blue-900 text-white px-4 py-1.5 rounded-lg text-xs font-semibold shadow-sm transition">
+                                {{-- Botón CONTINUAR (Abre modal aprobar) --}}
+                                <button 
+                                    wire:click="confirmarAprobacion({{ $solicitud->id }})" 
+                                    class="bg-[#1e3a8a] hover:bg-blue-900 text-white px-4 py-1.5 rounded-lg text-xs font-semibold shadow-sm transition"
+                                >
                                     Continuar
-                                </a>
-                                {{-- Botón Cancelar (Rojo Suave) --}}
-                                <button class="bg-red-100 hover:bg-red-200 text-red-700 px-4 py-1.5 rounded-lg text-xs font-semibold shadow-sm transition border border-red-200">
+                                </button>
+
+                                {{-- Botón CANCELAR (Abre modal cancelar) --}}
+                                <button 
+                                    wire:click="confirmarCancelacion({{ $solicitud->id }})"
+                                    class="bg-red-100 hover:bg-red-200 text-red-700 px-4 py-1.5 rounded-lg text-xs font-semibold shadow-sm transition border border-red-200"
+                                >
                                     Cancelar
                                 </button>
                             </div>
                         @else
-                            <span class="text-gray-400 text-xs italic font-medium">
-                                Acción finalizada
-                            </span>
+                            <span class="text-gray-400 text-xs italic font-medium">Acción finalizada</span>
                         @endif
                     </td>
                 </tr>
             @empty
-                <tr>
-                    <td colspan="5" class="px-6 py-8 text-center text-gray-400">
-                        No hay solicitudes recientes.
-                    </td>
-                </tr>
+                <tr><td colspan="5" class="px-6 py-8 text-center text-gray-400">No hay solicitudes recientes.</td></tr>
             @endforelse
         </tbody>
     </table>
+
+    {{-- MODAL 1: APROBAR (CONTINUAR) --}}
+    @if($mostrarModalAprobar)
+        <div class="fixed inset-0 flex items-center justify-center z-50">
+            <div class="absolute inset-0 bg-gray-900/60 backdrop-blur-sm" wire:click="cerrarModales"></div>
+            <div class="relative bg-white rounded-xl p-6 w-full max-w-sm shadow-2xl border-t-4 border-green-800">
+                <div class="text-center">
+                    <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
+                        <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900">¿Aprobar Solicitud?</h3>
+                    <p class="text-sm text-gray-500 mt-2">La solicitud pasará a estado <strong>Aprobada</strong> y continuará al proceso de certificación.</p>
+                    <div class="mt-6 flex justify-center gap-3">
+                        <button wire:click="cerrarModales" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200">Volver</button>
+                        <button wire:click="aprobarSolicitud" class="px-4 py-2 bg-green-800 text-white rounded-lg text-sm font-medium hover:bg-green-700 shadow-md">Confirmar Aprobación</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    {{-- MODAL 2: CANCELAR --}}
+    @if($mostrarModalCancelar)
+        <div class="fixed inset-0 flex items-center justify-center z-50">
+            <div class="absolute inset-0 bg-gray-900/60 backdrop-blur-sm" wire:click="cerrarModales"></div>
+            <div class="relative bg-white rounded-xl p-6 w-full max-w-sm shadow-2xl border-t-4 border-red-800">
+                <div class="text-center">
+                    <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
+                        <svg class="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900">¿Cancelar Solicitud?</h3>
+                    <p class="text-sm text-gray-500 mt-2">Esta acción rechazará la solicitud y finalizará el proceso. <br><span class="text-red-500 font-semibold">No se podrá deshacer.</span></p>
+                    <div class="mt-6 flex justify-center gap-3">
+                        <button wire:click="cerrarModales" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200">Volver</button>
+                        <button wire:click="cancelarSolicitud" class="px-4 py-2 bg-red-800 text-white rounded-lg text-sm font-medium hover:bg-red-700 shadow-md">Sí, Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 </div>

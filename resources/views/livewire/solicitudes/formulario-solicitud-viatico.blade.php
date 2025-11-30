@@ -280,33 +280,39 @@
     </div>
     @endif
 
-    {{-- MODAL DE ÉXITO ESTILO AZUL --}}
+    {{-- MODAL DE ÉXITO --}}
     @if ($showSuccessModal)
-    <div class="fixed inset-0 flex items-center justify-center z-50">
+    <div class="fixed inset-0 flex items-center justify-center z-[60]">
+        <!-- Fondo oscuro -->
         <div class="absolute inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity"></div>
-        
-        <div class="relative bg-white rounded-xl p-8 w-full max-w-md shadow-2xl transform transition-all scale-100 border border-gray-100">
+        <!-- Contenido del Modal -->
+        <div class="relative bg-white rounded-xl p-8 w-full max-w-md shadow-2xl transform transition-all scale-100 border-t-4 border-green-600">
             <div class="text-center">
+                {{-- Ícono de éxito --}}
                 <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-6">
-                    <svg class="h-10 w-10 text-green-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="h-10 w-10 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                     </svg>
                 </div>
-
-                <h2 class="text-2xl font-bold text-gray-900 mb-2">¡Solicitud Generada!</h2>
-                
-                <p class="text-gray-600 mb-8">
-                    La solicitud de viático ha sido creada correctamente y está lista para su revisión.
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">¡Solicitud generada!</h2>
+                <p class="text-gray-600 mb-6 text-sm">
+                    La solicitud de viático fue creada correctamente.
+                    <br>
+                    <span class="font-semibold text-blue-900">
+                        Ahora puede visualizar los detalles completos.
+                    </span>
                 </p>
-
-                <button 
-                    wire:click="irAVisualizarSolicitud"
-                    class="w-full inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-blue-900 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-900 transition"
-                >
-                    Ver Solicitud
-                </button>
+                <div class="flex justify-center">
+                    <button 
+                        wire:click="irAVisualizarSolicitud"
+                        class="px-6 py-2.5 bg-blue-900 text-white font-semibold rounded-lg hover:bg-blue-800 transition shadow-md flex items-center"
+                    >
+                        Ver Solicitud
+                    </button>
+                </div>
             </div>
         </div>
     </div>
     @endif
+
 </div>
