@@ -1,164 +1,197 @@
 <div>
-    {{-- CONTENEDOR PRINCIPAL: Tarjeta estilo Dashboard --}}
-    <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-sm border border-gray-200 p-6 md:p-8 font-sans">
+    {{-- CONTENEDOR PRINCIPAL --}}
+    <div class="max-w-5xl mx-auto bg-white rounded-lg shadow-lg border border-gray-200 font-sans overflow-hidden">
 
-        {{-- 1. ENCABEZADO --}}
-        <div class="mb-8 border-b border-gray-100 pb-4">
-            <h2 class="text-sm text-gray-500 uppercase tracking-wide font-semibold">Solicitud</h2>
-            <div class="text-3xl font-bold text-blue-900">
-                {{ $solicitud->id ?? '10' }} {{-- O el ID que corresponda --}}
-            </div>
-        </div>
-
-        {{-- 2. GRILLA DE DATOS (2 Columnas) --}}
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-12 mb-8">
-
-            {{-- Fila 1 --}}
+        {{-- 1. ENCABEZADO INSTITUCIONAL --}}
+        <div class="bg-blue-50/50 p-6 md:p-8 border-b border-blue-100 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
-                <label class="block text-xs font-medium text-gray-400 uppercase mb-1">Número de Nota Interna</label>
-                <div class="text-gray-800 text-lg font-medium">
-                    {{ $solicitud->numeroNotaInterna->numero ?? '001' }}
-                </div>
-                <div class="h-px bg-gray-200 mt-2 w-full"></div>
+                <h2 class="text-2xl font-bold text-blue-900 flex items-center gap-2">
+                    <svg class="w-6 h-6 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    Detalle de Solicitud
+                </h2>
+                <p class="text-gray-500 text-sm mt-1">Información completa del viático registrado.</p>
             </div>
-
-            <div>
-                <label class="block text-xs font-medium text-gray-400 uppercase mb-1">Porcentaje</label>
-                <div class="text-gray-800 text-lg font-medium">
-                    {{ $solicitud->porcentaje->porcentaje ?? '100' }}%
-                </div>
-                <div class="h-px bg-gray-200 mt-2 w-full"></div>
-            </div>
-
-            {{-- Fila 2 --}}
-            <div>
-                <label class="block text-xs font-medium text-gray-400 uppercase mb-1">Cantidad de Días</label>
-                <div class="text-gray-800 text-lg font-medium">
-                    {{ $solicitud->cantidad_dias }}
-                </div>
-                <div class="h-px bg-gray-200 mt-2 w-full"></div>
-            </div>
-
-            <div>
-                <label class="block text-xs font-medium text-gray-400 uppercase mb-1">Monto Individual</label>
-                @php
-                    $cantidad = $solicitud->empleados->count();
-                    $montoInd = $cantidad > 0 ? ($solicitud->monto_total / $cantidad) : 0;
-                @endphp
-                <div class="text-gray-800 text-lg font-medium">
-                    $ {{ number_format($montoInd, 2, ',', '.') }}
-                </div>
-                <div class="h-px bg-gray-200 mt-2 w-full"></div>
-            </div>
-
-            {{-- Fila 3: Fechas --}}
-            <div>
-                <label class="block text-xs font-medium text-gray-400 uppercase mb-1">Fecha de Salida</label>
-                <div class="text-gray-800 text-lg font-medium">
-                    {{ $solicitud->created_at->format('d/m/Y') }}
-                </div>
-                <div class="h-px bg-gray-200 mt-2 w-full"></div>
-            </div>
-
-            <div>
-                <label class="block text-xs font-medium text-gray-400 uppercase mb-1">Fecha de Fin</label>
-                <div class="text-gray-800 text-lg font-medium">
-                    {{-- {{ \Carbon\Carbon::parse($solicitud->fecha_fin)->format('d/m/Y') }} --}}
-            
-                </div>
-                <div class="h-px bg-gray-200 mt-2 w-full"></div>
-            </div>
-
-        </div>
-
-        {{-- 3. SECCIÓN DESTINO (3 Columnas internas) --}}
-        <div class="mb-8">
-            <h3 class="text-sm font-semibold text-gray-600 mb-4">Destino</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                    <span class="block text-xs text-gray-400">Provincia</span>
-                    <span class="text-gray-800 font-medium">{{ $solicitud->provincia ?? 'Formosa' }}</span>
-                    <div class="h-px bg-gray-200 mt-1 w-full"></div>
-                </div>
-                <div>
-                    <span class="block text-xs text-gray-400">Distrito</span>
-                    <span class="text-gray-800 font-medium">{{ $solicitud->distrito->distrito ?? '-' }}</span>
-                    <div class="h-px bg-gray-200 mt-1 w-full"></div>
-                </div>
-                <div>
-                    <span class="block text-xs text-gray-400">Localidad</span>
-                    <span class="text-gray-800 font-medium">{{ $solicitud->localidad->nombre_localidades ?? '-' }}</span>
-                    <div class="h-px bg-gray-200 mt-1 w-full"></div>
+            <div class="bg-white border border-blue-200 rounded-lg px-4 py-2 shadow-sm">
+                <span class="text-xs text-gray-500 uppercase font-bold tracking-wider">Solicitud</span>
+                <div class="text-2xl font-black text-blue-900 leading-none text-center">
+                    #{{ str_pad($solicitud->id ?? '0', 0, '0', STR_PAD_LEFT) }}
                 </div>
             </div>
         </div>
 
-        {{-- 4. LISTA DE EMPLEADOS --}}
-        <div class="mb-8">
-            <label class="block text-xs font-medium text-gray-400 uppercase mb-2">Empleados Asignados</label>
-            <ul class="list-disc list-inside space-y-1">
-                @forelse($solicitud->empleados as $empleado)
-                    <li class="text-gray-700 font-medium">
-                        {{ $empleado->persona->nombre }} {{ $empleado->persona->apellido }}
-                    </li>
-                @empty
-                    <li class="text-gray-400 italic">Sin empleados asignados</li>
-                @endforelse
-            </ul>
-            <div class="h-px bg-gray-200 mt-4 w-full"></div>
-        </div>
+        <div class="p-6 md:p-8 space-y-8">
 
-        {{-- 5. TOTAL Y TEXTO --}}
-        <div class="mb-8">
-            <label class="block text-xs font-medium text-gray-400 uppercase mb-1">Total del Monto</label>
-            <div class="text-2xl font-bold text-gray-800">
-                $ {{ number_format($solicitud->monto_total, 2, ',', '.') }}
+            {{-- 2. TARJETA DE RESUMEN (DATOS CLAVE) --}}
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                    <label class="text-xs font-bold text-gray-400 uppercase tracking-wide">Nota Interna</label>
+                    <div class="text-gray-800 text-lg font-semibold mt-1">
+                        {{ $solicitud->numeroNotaInterna->numero ?? 'S/N' }}
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-100 md:col-span-2 flex items-center justify-between">
+                    <div>
+                        <label class="text-xs font-bold text-gray-400 uppercase tracking-wide">Salida</label>
+                        <div class="text-gray-800 text-lg font-semibold mt-1">
+                            {{ $solicitud->created_at->format('d/m/Y') }}
+                        </div>
+                    </div>
+                    <div class="text-gray-300">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                    </div>
+                    <div class="text-right">
+                        <label class="text-xs font-bold text-gray-400 uppercase tracking-wide">Regreso / Fin</label>
+                        <div class="text-gray-800 text-lg font-semibold mt-1">
+                             {{-- Asumiendo que fecha_fin es un objeto Carbon, si es string usa parse --}}
+                             {{ \Carbon\Carbon::parse($solicitud->fecha_fin)->format('d/m/Y') }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                    <label class="text-xs font-bold text-gray-400 uppercase tracking-wide">Duración</label>
+                    <div class="text-gray-800 text-lg font-semibold mt-1">
+                        {{ $solicitud->cantidad_dias }} <span class="text-sm text-gray-500 font-normal">Días</span>
+                    </div>
+                </div>
             </div>
-            
-            <div class="mt-4 text-sm text-gray-500 uppercase font-semibold tracking-wide" id="monto-en-letras">
-                Calculando...
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                {{-- COLUMNA IZQUIERDA (2/3): INFORMACIÓN DETALLADA --}}
+                <div class="lg:col-span-2 space-y-8">
+                    
+                    {{-- SECCIÓN DESTINO --}}
+                    <div>
+                        <h3 class="text-sm font-bold text-blue-900 uppercase tracking-wide border-b border-gray-100 pb-2 mb-4 flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            Ubicación / Destino
+                        </h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div>
+                                <span class="block text-xs text-gray-400 font-semibold uppercase">Provincia</span>
+                                <span class="text-gray-800 font-medium">{{ $solicitud->provincia ?? 'Formosa' }}</span>
+                            </div>
+                            <div>
+                                <span class="block text-xs text-gray-400 font-semibold uppercase">Distrito</span>
+                                <span class="text-gray-800 font-medium">{{ $solicitud->distrito->distrito ?? '-' }}</span>
+                            </div>
+                            <div>
+                                <span class="block text-xs text-gray-400 font-semibold uppercase">Localidad</span>
+                                <span class="text-gray-800 font-medium">{{ $solicitud->localidad->nombre_localidades ?? '-' }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- SECCIÓN EMPLEADOS --}}
+                    <div>
+                        <h3 class="text-sm font-bold text-blue-900 uppercase tracking-wide border-b border-gray-100 pb-2 mb-4 flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                            Personal Asignado
+                        </h3>
+                        <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
+                            <ul class="divide-y divide-gray-100">
+                                @forelse($solicitud->empleados as $empleado)
+                                    <li class="px-4 py-3 flex items-center gap-3 hover:bg-gray-50 transition">
+                                        <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold text-xs">
+                                            {{ substr($empleado->persona->nombre, 0, 1) }}{{ substr($empleado->persona->apellido, 0, 1) }}
+                                        </div>
+                                        <span class="text-gray-700 font-medium text-sm">
+                                            {{ $empleado->persona->apellido }}, {{ $empleado->persona->nombre }}
+                                        </span>
+                                    </li>
+                                @empty
+                                    <li class="px-4 py-3 text-gray-400 italic text-sm">Sin empleados asignados</li>
+                                @endforelse
+                            </ul>
+                        </div>
+                    </div>
+
+                    {{-- SECCIÓN OBJETO Y OBSERVACIONES --}}
+                    <div>
+                        <h3 class="text-sm font-bold text-blue-900 uppercase tracking-wide border-b border-gray-100 pb-2 mb-4 flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                            Detalles Adicionales
+                        </h3>
+                        <div class="bg-blue-50/30 rounded-lg p-5 border border-blue-100 space-y-4">
+                            <div>
+                                <label class="block text-xs font-bold text-blue-900 uppercase mb-1">Objeto de la Comisión</label>
+                                <p class="text-gray-700 text-sm leading-relaxed">
+                                    {{ $solicitud->objeto_comision }}
+                                </p>
+                            </div>
+                            @if($solicitud->observacion)
+                                <div class="border-t border-blue-100 pt-3">
+                                    <label class="block text-xs font-bold text-blue-900 uppercase mb-1">Observaciones</label>
+                                    <p class="text-gray-600 text-sm leading-relaxed italic">
+                                        "{{ $solicitud->observacion }}"
+                                    </p>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                {{-- COLUMNA DERECHA (1/3): TOTALES Y ACCIONES --}}
+                <div class="space-y-6">
+                    
+                    {{-- TARJETA DE TOTALES --}}
+                    <div class="bg-blue-900 rounded-xl p-6 text-white shadow-lg relative overflow-hidden">
+                        <div class="absolute top-0 right-0 -mr-4 -mt-4 w-24 h-24 rounded-full bg-white opacity-5"></div>
+                        <div class="absolute bottom-0 left-0 -ml-4 -mb-4 w-20 h-20 rounded-full bg-white opacity-5"></div>
+
+                        <div class="relative z-10">
+                            <h3 class="text-blue-200 text-xs font-bold uppercase tracking-widest mb-4">Resumen Financiero</h3>
+                            
+                            <div class="mb-4">
+                                <span class="block text-xs text-blue-200 opacity-80 mb-1">Monto Individual</span>
+                                @php
+                                    $cantidad = $solicitud->empleados->count();
+                                    $montoInd = $cantidad > 0 ? ($solicitud->monto_total / $cantidad) : 0;
+                                @endphp
+                                <span class="text-xl font-medium">$ {{ number_format($montoInd, 2, ',', '.') }}</span>
+                            </div>
+
+                            <div class="mb-2">
+                                <span class="block text-xs text-blue-200 opacity-80 mb-1">Porcentaje Aplicado</span>
+                                <span class="text-lg font-medium">{{ $solicitud->porcentaje->porcentaje ?? '100' }}%</span>
+                            </div>
+
+                            <div class="border-t border-blue-700 my-4"></div>
+
+                            <div>
+                                <span class="block text-sm text-blue-100 font-bold mb-1">TOTAL GENERAL</span>
+                                <span class="text-3xl font-bold tracking-tight">$ {{ number_format($solicitud->monto_total, 2, ',', '.') }}</span>
+                            </div>
+                            
+                            <div class="mt-4 p-3 bg-blue-800 rounded-lg border border-blue-700">
+                                <p class="text-[10px] text-blue-200 uppercase font-medium leading-tight tracking-wide" id="monto-en-letras">
+                                    Calculando...
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- BOTONERA --}}
+                    <div class="flex flex-col gap-3">
+                        <a href="{{ route('generar.pdf', $solicitud->id) }}" target="_blank" class="w-full flex justify-center items-center px-4 py-3 bg-white border-2 border-blue-900 text-blue-900 font-bold rounded-lg hover:bg-blue-50 transition shadow-sm group">
+                            <svg class="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                            IMPRIMIR PDF
+                        </a>
+
+                        <a href="{{ route('dashboard')}}" class="w-full flex justify-center items-center px-4 py-3 bg-gray-100 text-gray-600 font-semibold rounded-lg hover:bg-gray-200 transition">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                            Volver
+                        </a>
+                    </div>
+
+                </div>
             </div>
-            <div class="h-px bg-gray-200 mt-2 w-full"></div>
         </div>
-
-        {{-- 6. OBJETO Y OBSERVACIONES --}}
-        <div class="space-y-6 mb-8">
-            <div>
-                <label class="block text-xs font-medium text-gray-400 uppercase mb-1">Objeto de Comisión</label>
-                <p class="text-gray-700 leading-relaxed">
-                    {{ $solicitud->objeto_comision }}
-                </p>
-                <div class="h-px bg-gray-200 mt-2 w-full"></div>
-            </div>
-
-            <div>
-                <label class="block text-xs font-medium text-gray-400 uppercase mb-1">Observaciones</label>
-                <p class="text-gray-700 leading-relaxed">
-                    {{ $solicitud->observacion ?? 'Sin observaciones adicionales.' }}
-                </p>
-                <div class="h-px bg-gray-200 mt-2 w-full"></div>
-            </div>
-        </div>
-
-        {{-- 7. BOTONERA  --}}
-        <div class="flex flex-col md:flex-row justify-end items-center gap-4 mt-10">
-            {{-- Botón Volver (Gris) --}}
-            <a href="#" class="px-6 py-2.5 bg-gray-200 text-gray-700 font-semibold rounded-md hover:bg-gray-300 transition duration-200 flex items-center">
-                Volver al Panel
-            </a>
-
-            {{-- Botón Imprimir  --}}
-            <a href="{{ route('generar.pdf', $solicitud->id) }}" target="_blank" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-                </svg>
-                IMPRIMIR DOCUMENTO
-            </a>
-        </div>
-
     </div>
 
-    {{-- SCRIPT JS --}}
+    {{-- SCRIPT JS (Sin cambios, solo preservado) --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const monto = {{ $solicitud->monto_total }};

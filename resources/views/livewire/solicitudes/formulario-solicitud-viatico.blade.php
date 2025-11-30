@@ -1,263 +1,265 @@
-<div class="max-w-6xl mx-auto p-6 bg-white rounded-xl shadow-lg border border-gray-100">
+<div class="w-full max-w-6xl mx-auto bg-white rounded-lg shadow-lg border border-gray-200 font-sans">
     
-    <div class="mb-8 border-b pb-4">
-        <h2 class="text-2xl font-bold text-gray-800">Nueva Solicitud de Viático</h2>
-        <p class="text-gray-500 text-sm">Complete los detalles de la comisión y asigne el personal correspondiente.</p>
+    {{-- Encabezado Estilo Institucional --}}
+    <div class="bg-blue-50/50 rounded-t-lg p-6 border-b border-blue-100">
+        <h2 class="text-2xl font-bold text-blue-900">Nueva Solicitud de Viático</h2>
+        <p class="text-gray-500 text-sm mt-1">Complete los detalles de la comisión y asigne el personal correspondiente.</p>
     </div>
 
     @if (session()->has('message'))
-        <div class="bg-green-50 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded-r shadow-sm flex items-center">
+        <div class="mx-6 mt-6 bg-green-50 border-l-4 border-green-600 text-green-800 p-4 rounded-r shadow-sm flex items-center">
             <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
             {{ session('message') }}
         </div>
     @endif
 
-    <form wire:submit.prevent="save">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div class="p-6 md:p-8">
+        <form wire:submit.prevent="save" class="grid gap-y-8" novalidate>
             
-            <!-- SECCIÓN IZQUIERDA: DATOS GENERALES -->
-            <div class="space-y-6">
-                <h3 class="text-lg font-semibold text-indigo-600 border-b border-indigo-100 pb-2">Datos de la Comisión</h3>
-
-                <!-- Nota Interna -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Nota Interna</label>
-                    <select wire:model.blur="form.numero_nota_interna_id" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition">
-                        <option value="">Seleccione N° Nota...</option>
-                        @foreach($notas_internas as $nota)
-                            <option value="{{ $nota->id }}">{{ $nota->numero }}</option>
-                        @endforeach
-                    </select>
-                    @error('form.numero_nota_interna_id') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
-                </div>
-
-                <!-- Objeto Comisión -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Objeto de la Comisión</label>
-                    <input type="text" wire:model.blur="form.objeto_comision" placeholder="Ej: Auditoría contable en sucursal" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                    @error('form.objeto_comision') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
-                </div>
-
-                <!-- Fechas y Días -->
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Fecha Fin</label>
-                        <input type="datetime-local" wire:model.blur="form.fecha_fin" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                        @error('form.fecha_fin') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                
+                <div class="space-y-6">
+                    
+                    <div class="w-full">
+                        <h6 class="text-lg font-bold text-gray-800 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-blue-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                            1. Datos de la Comisión
+                        </h6>
+                        <hr class="mb-4 mt-2 border-gray-200" />
                     </div>
+
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Cantidad Días</label>
-                        <input type="number" wire:model.live="form.cantidad_dias" min="1" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                        @error('form.cantidad_dias') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
-                    </div>
-                </div>
-
-                 <!-- Montos -->
-                 <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Monto Diario Base</label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">$</span>
-                            <input type="number" step="0.01" wire:model.live="form.monto" class="pl-7 w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                        </div>
-                        @error('form.monto') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Total Calculado</label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">$</span>
-                            <!-- Aquí accedemos a la propiedad del objeto form con $form->monto_total -->
-                            <input type="text" value="{{ number_format($form->monto_total, 2) }}" readonly class="pl-7 w-full bg-gray-200 text-gray-600 rounded-lg border-gray-300 cursor-not-allowed font-bold">
-                        </div>
-                        <p class="text-[10px] text-gray-500 mt-1 text-right">(Base x Días x Personas)</p>
-                    </div>
-                </div>
-
-                <!-- Porcentaje -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Porcentaje Aplicable</label>
-                    <select wire:model.blur="form.porcentaje_id" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                        <option value="">Seleccione %...</option>
-                        @foreach($porcentajes as $pct)
-                            <option value="{{ $pct->id }}">{{ $pct->porcentaje }}%</option>
-                        @endforeach
-                    </select>
-                    @error('form.porcentaje_id') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
-                </div>
-
-            </div>
-
-            <!-- SECCIÓN DERECHA: UBICACIÓN Y PERSONAL -->
-            <div class="space-y-6">
-                <h3 class="text-lg font-semibold text-indigo-600 border-b border-indigo-100 pb-2">Ubicación y Personal</h3>
-
-                <!-- Ubicación -->
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Distrito</label>
-                        <select wire:model.blur="form.distrito_id" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                            <option value="">Seleccione...</option>
-                            @foreach($distritos as $dist)
-                                <option value="{{ $dist->id }}">{{ $dist->distrito }}</option>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Nota Interna</label>
+                        <select wire:model.blur="form.numero_nota_interna_id" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-900 focus:ring-blue-900 transition py-2.5">
+                            <option value="">Seleccione N° Nota...</option>
+                            @foreach($notas_internas as $nota)
+                                <option value="{{ $nota->id }}">{{ $nota->numero }}</option>
                             @endforeach
                         </select>
-                        @error('form.distrito_id') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                        @error('form.numero_nota_interna_id') <span class="text-red-500 text-xs mt-1 font-semibold">{{ $message }}</span> @enderror
                     </div>
+
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Localidad</label>
-                        <select wire:model.blur="form.localidad_id" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                            <option value="">Seleccione...</option>
-                            @foreach($localidades as $loc)
-                                <option value="{{ $loc->id }}">{{ $loc->nombre_localidades }}</option>
-                            @endforeach
-                        </select>
-                        @error('form.localidad_id') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Objeto de la Comisión</label>
+                        <input type="text" wire:model.blur="form.objeto_comision" placeholder="Ej: Auditoría contable en sucursal" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-900 focus:ring-blue-900 py-2.5">
+                        @error('form.objeto_comision') <span class="text-red-500 text-xs mt-1 font-semibold">{{ $message }}</span> @enderror
                     </div>
-                </div>
 
-                <!-- Switch Fuera de Provincia -->
-                <div class="flex flex-col bg-indigo-50 p-3 rounded-lg border border-indigo-100">
-                    <div class="flex items-center justify-between mb-2">
-                        <label for="es_fuera_provincia" class="text-sm font-medium text-gray-900 cursor-pointer select-none">
-                            ¿Comisión fuera de la provincia?
-                        </label>
-                        <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
-                            <input type="checkbox" wire:model.live="form.es_fuera_provincia" id="es_fuera_provincia" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer checked:right-0 checked:border-indigo-600"/>
-                            <label for="es_fuera_provincia" class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-300 cursor-pointer"></label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Fecha Fin</label>
+                            <input type="datetime-local" wire:model.blur="form.fecha_fin" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-900 focus:ring-blue-900 py-2.5">
+                            @error('form.fecha_fin') <span class="text-red-500 text-xs mt-1 font-semibold">{{ $message }}</span> @enderror
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Cantidad Días</label>
+                            <input type="number" wire:model.live="form.cantidad_dias" min="1" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-900 focus:ring-blue-900 py-2.5">
+                            @error('form.cantidad_dias') <span class="text-red-500 text-xs mt-1 font-semibold">{{ $message }}</span> @enderror
                         </div>
                     </div>
 
-                    @if($form->es_fuera_provincia)
-                        <div class="mt-2 transition-all duration-300 ease-in-out">
-                            <label class="block text-xs font-medium text-indigo-700 mb-1">Especifique Provincia / Destino</label>
-                            <input type="text" wire:model.blur="form.nombre_provincia" placeholder="Ej: Córdoba, Buenos Aires..." class="w-full rounded border-indigo-300 focus:ring-indigo-500 focus:border-indigo-500 text-sm">
-                            @error('form.nombre_provincia') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
-                        </div>
-                    @endif
-                </div>
-
-                <!-- SECCIÓN EMPLEADOS (AGREGAR DINÁMICO) -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Asignar Empleados</label>
-                    <div class="flex gap-2 mb-2">
-                        <select wire:model="empleado_seleccionado_id" class="flex-1 rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm">
-                            <option value="">Buscar empleado...</option>
-                            @foreach($todos_empleados as $emp)
-                                <option value="{{ $emp->id }}">
-                                    {{ $emp->numero_legajo }} - {{ $emp->persona->apellido }}, {{ $emp->persona->nombre }}
-                                </option>
-                            @endforeach
-                        </select>
-                        <button type="button" wire:click="agregarEmpleado" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition shadow-sm">
-                            Agregar
-                        </button>
-                    </div>
-                    @error('empleado_seleccionado_id') <span class="text-red-500 text-xs block mb-2">{{ $message }}</span> @enderror
-                    @error('form.empleados_agregados') <span class="text-red-500 text-xs block mb-2">Debe agregar al menos un empleado.</span> @enderror
-
-                    <!-- Lista de Empleados Agregados -->
-                    <div class="bg-white border border-gray-200 rounded-lg overflow-hidden max-h-48 overflow-y-auto shadow-inner">
-                        @if(count($empleadosListados) > 0)
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-50">
-                                    <tr>
-                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Legajo</th>
-                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
-                                        <th class="px-4 py-2 text-right"></th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
-                                    @foreach($empleadosListados as $index => $empleado)
-                                        <tr>
-                                            <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-500">{{ $empleado->numero_legajo }}</td>
-                                            <td class="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900">
-                                                {{ $empleado->persona->apellido }}, {{ $empleado->persona->nombre }}
-                                            </td>
-                                            <td class="px-4 py-2 whitespace-nowrap text-right text-sm font-medium">
-                                                <button type="button" wire:click="quitarEmpleado({{ $index }})" class="text-red-600 hover:text-red-900 font-bold text-xs bg-red-50 px-2 py-1 rounded hover:bg-red-100 transition">
-                                                    Quitar
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        @else
-                            <div class="p-4 text-center text-sm text-gray-400 italic">
-                                No hay empleados asignados a esta solicitud.
+                     <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Monto Diario Base</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500 font-bold">$</span>
+                                <input type="number" step="0.01" wire:model.live="form.monto" class="pl-7 w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-900 focus:ring-blue-900 py-2.5">
                             </div>
-                        @endif
+                            @error('form.monto') <span class="text-red-500 text-xs mt-1 font-semibold">{{ $message }}</span> @enderror
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Total Estimado</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500 font-bold">$</span>
+                                <input type="text" value="{{ number_format($form->monto_total, 2) }}" readonly class="pl-7 w-full bg-gray-200 text-gray-700 font-bold rounded-lg border-gray-300 cursor-not-allowed py-2.5">
+                            </div>
+                            <p class="text-[10px] text-gray-500 mt-1 text-right italic">(Base x Días x Personas)</p>
+                        </div>
                     </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Porcentaje Aplicable</label>
+                        <select wire:model.blur="form.porcentaje_id" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-900 focus:ring-blue-900 py-2.5">
+                            <option value="">Seleccione %...</option>
+                            @foreach($porcentajes as $pct)
+                                <option value="{{ $pct->id }}">{{ $pct->porcentaje }}%</option>
+                            @endforeach
+                        </select>
+                        @error('form.porcentaje_id') <span class="text-red-500 text-xs mt-1 font-semibold">{{ $message }}</span> @enderror
+                    </div>
+
                 </div>
 
-                <!-- Observaciones -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Observaciones Generales</label>
-                    <textarea wire:model.blur="form.observacion" rows="2" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
-                </div>
+                <div class="space-y-6">
+                    
+                    <div class="w-full">
+                        <h6 class="text-lg font-bold text-gray-800 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-blue-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            2. Ubicación y Personal
+                        </h6>
+                        <hr class="mb-4 mt-2 border-gray-200" />
+                    </div>
 
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Distrito</label>
+                            <select wire:model.blur="form.distrito_id" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-900 focus:ring-blue-900 py-2.5">
+                                <option value="">Seleccione...</option>
+                                @foreach($distritos as $dist)
+                                    <option value="{{ $dist->id }}">{{ $dist->distrito }}</option>
+                                @endforeach
+                            </select>
+                            @error('form.distrito_id') <span class="text-red-500 text-xs mt-1 font-semibold">{{ $message }}</span> @enderror
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Localidad</label>
+                            <select wire:model.blur="form.localidad_id" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-900 focus:ring-blue-900 py-2.5">
+                                <option value="">Seleccione...</option>
+                                @foreach($localidades as $loc)
+                                    <option value="{{ $loc->id }}">{{ $loc->nombre_localidades }}</option>
+                                @endforeach
+                            </select>
+                            @error('form.localidad_id') <span class="text-red-500 text-xs mt-1 font-semibold">{{ $message }}</span> @enderror
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                         <div class="flex items-center justify-between mb-4">
+                            <label for="es_fuera_provincia" class="text-base font-semibold text-gray-800 cursor-pointer select-none">
+                                ¿Comisión fuera de la provincia?
+                            </label>
+                            
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" wire:model.live="form.es_fuera_provincia" id="es_fuera_provincia" class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-900"></div>
+                            </label>
+                        </div>
+
+                        <div class="overflow-hidden transition-all duration-300 ease-in-out {{ $form->es_fuera_provincia ? 'max-h-24 opacity-100' : 'max-h-0 opacity-0' }}">
+                            <div>
+                                <label class="block text-sm font-semibold text-blue-900 mb-2">Especifique Provincia / Destino</label>
+                                <input type="text" wire:model.blur="form.nombre_provincia" placeholder="Ej: Córdoba, Buenos Aires..." class="w-full rounded-lg border-blue-300 shadow-sm focus:border-blue-900 focus:ring-blue-900 py-2.5 bg-blue-50/30">
+                                @error('form.nombre_provincia') <span class="text-red-500 text-xs mt-1 font-semibold">{{ $message }}</span> @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="border-gray-100 my-4" />
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Asignar Empleados</label>
+                        <div class="flex gap-2 mb-3">
+                            <select wire:model="empleado_seleccionado_id" class="flex-1 rounded-lg border-gray-300 shadow-sm focus:border-blue-900 focus:ring-blue-900 text-sm py-2.5">
+                                <option value="">Buscar empleado...</option>
+                                @foreach($todos_empleados as $emp)
+                                    <option value="{{ $emp->id }}">
+                                        {{ $emp->numero_legajo }} - {{ $emp->persona->apellido }}, {{ $emp->persona->nombre }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <button type="button" wire:click="agregarEmpleado" class="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded-lg text-sm font-semibold transition shadow-md flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                                Agregar
+                            </button>
+                        </div>
+                        @error('empleado_seleccionado_id') <span class="text-red-500 text-xs block mb-2 font-semibold">{{ $message }}</span> @enderror
+                        @error('form.empleados_agregados') <span class="text-red-500 text-xs block mb-2 font-semibold">Debe agregar al menos un empleado.</span> @enderror
+
+                        <div class="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
+                            <div class="max-h-56 overflow-y-auto">
+                                @if(count($empleadosListados) > 0)
+                                    <table class="min-w-full divide-y divide-gray-200">
+                                        <thead class="bg-gray-50 sticky top-0">
+                                            <tr>
+                                                <th class="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Legajo</th>
+                                                <th class="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Nombre</th>
+                                                <th class="px-4 py-3 text-right"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="bg-white divide-y divide-gray-200">
+                                            @foreach($empleadosListados as $index => $empleado)
+                                                <tr class="hover:bg-gray-50 transition">
+                                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600 font-medium">{{ $empleado->numero_legajo }}</td>
+                                                    <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">
+                                                        {{ $empleado->persona->apellido }}, {{ $empleado->persona->nombre }}
+                                                    </td>
+                                                    <td class="px-4 py-3 whitespace-nowrap text-right text-sm font-medium">
+                                                        <button type="button" wire:click="quitarEmpleado({{ $index }})" class="text-red-600 hover:text-red-900 p-1 hover:bg-red-50 rounded transition" title="Quitar">
+                                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                @else
+                                    <div class="p-8 text-center">
+                                        <svg class="mx-auto h-8 w-8 text-gray-300 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                                        <p class="text-sm text-gray-400 italic">No hay empleados asignados.</p>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Observaciones Generales</label>
+                        <textarea wire:model.blur="form.observacion" rows="3" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-900 focus:ring-blue-900 py-2.5 resize-none" placeholder="Ingrese detalles adicionales aquí..."></textarea>
+                    </div>
+
+                </div>
             </div>
-        </div>
 
-        <!-- Botón Guardar -->
-        <div class="mt-8 pt-6 border-t border-gray-200 flex justify-end">
-           <button 
-    type="button" 
-    wire:click="save"
-    wire:loading.attr="disabled"
-    class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg 
-           shadow-md transform hover:-translate-y-0.5 transition duration-150 flex items-center">
-    
-    {{-- Texto normal --}}
-    <span wire:loading.remove wire:target="save">
-        Guardar Solicitud
-    </span>
+            <div class="mt-4 pt-6 border-t border-gray-100 flex justify-end">
+                <button 
+                    type="button" 
+                    wire:click="save"
+                    wire:loading.attr="disabled"
+                    class="bg-blue-900 hover:bg-blue-800 text-white font-bold py-3 px-10 rounded-lg shadow-lg transform hover:-translate-y-0.5 transition duration-150 flex items-center text-base"
+                >
+                    <span wire:loading.remove wire:target="save">
+                        Generar Solicitud
+                    </span>
 
-    {{-- Spinner mientras guarda --}}
-    <span wire:loading wire:target="save" class="flex items-center">
-        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-        </svg>
-        Guardando...
-    </span>
-</button>
+                    <span wire:loading wire:target="save" class="flex items-center">
+                        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Procesando...
+                    </span>
+                </button>
+            </div>
+        </form>
+    </div>
 
-        </div>
-    </form>
-
+    {{-- MODAL DE ÉXITO ESTILO AZUL --}}
     @if ($showSuccessModal)
-    <div 
-        class="fixed inset-0 flex items-center justify-center bg-black/50 z-50"
-    >
-        <div class="bg-white dark:bg-neutral-900 rounded-xl p-8 w-full max-w-md shadow-xl animate-fade-in">
-
+    <div class="fixed inset-0 flex items-center justify-center z-50">
+        <div class="absolute inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity"></div>
+        
+        <div class="relative bg-white rounded-xl p-8 w-full max-w-md shadow-2xl transform transition-all scale-100 border border-gray-100">
             <div class="text-center">
-                <svg class="w-16 h-16 text-green-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                        d="M9 12l2 2l4 -4m6 2a10 10 0 1 1 -20 0a10 10 0 0 1 20 0z" />
-                </svg>
+                <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-blue-100 mb-6">
+                    <svg class="h-10 w-10 text-blue-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                </div>
 
-                <h2 class="mt-4 text-2xl font-bold text-gray-800 dark:text-gray-100">
-                    ¡Solicitud generada exitosamente!
-                </h2>
-
-                <p class="mt-2 text-gray-600 dark:text-gray-300">
-                    La solicitud fue creada correctamente. Ahora puedes visualizarla.
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">¡Solicitud Generada!</h2>
+                
+                <p class="text-gray-600 mb-8">
+                    La solicitud de viático ha sido creada correctamente y está lista para su revisión.
                 </p>
-            </div>
-
-            <div class="mt-6 flex justify-center gap-3">
 
                 <button 
                     wire:click="irAVisualizarSolicitud"
-                    class="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition"
+                    class="w-full inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-blue-900 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-900 transition"
                 >
-                    Ver solicitud
+                    Ver Solicitud
                 </button>
             </div>
         </div>
     </div>
     @endif
-
 </div>
