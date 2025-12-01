@@ -8,11 +8,14 @@ use App\Models\Persona;
 use App\Models\Rol;
 use App\Models\Clase;
 use App\Models\Departamento;
+use App\Models\Distrito;
 
 class Empleados extends Component
 {
-    public $empleados;
-    public $personas, $roles, $clases, $departamentos;
+
+    public $empleados, $personas, $roles, $clases, $departamentos, $distritos, $distrito_id;
+    public $search = '';
+
 
     public $modal = false;
     public $selected_id;
@@ -25,11 +28,25 @@ class Empleados extends Component
 
     private function loadData()
     {
-        $this->empleados = Empleado::with(['persona', 'rol', 'clase', 'departamento'])->get();
+        $this->empleados = Empleado::with(['persona', 'rol', 'clase', 'departamento'])
+            ->when($this->search, function ($query) {
+                $query->whereHas('persona', function ($q) {
+                    $q->where('nombre', 'like', '%' . $this->search . '%')
+                        ->orWhere('apellido', 'like', '%' . $this->search . '%');
+                });
+            })
+            ->get();
+
         $this->personas = Persona::all();
         $this->roles = Rol::all();
         $this->clases = Clase::all();
         $this->departamentos = Departamento::all();
+        $this->distritos = Distrito::all();
+    }
+
+    public function updatedSearch()
+    {
+        $this->loadData();
     }
 
     public function create()
@@ -60,12 +77,22 @@ class Empleados extends Component
     {
         if (!auth()->user()->isRole('admin')) return;
 
+        if (!$this->rol_id) {
+            $this->rol_id = Rol::where('nombre_rol', 'Usuario')->first()->id;
+        }
+
+
         $this->validate([
             'persona_id' => 'required',
             'numero_legajo' => 'required',
-            'rol_id' => 'nullable',
+            'distrito_id' => 'required', // <-- cambiamos rol_id por distrito_id
             'clase_id' => 'nullable',
-            'departamento_id' => 'nullable',
+            'departamento_id' => 'required',
+        ], [
+            'persona_id.required' => 'Debes seleccionar una persona.',
+            'numero_legajo.required' => 'El legajo es obligatorio.',
+            'distrito_id.required' => 'Debes seleccionar un distrito.',
+            'departamento_id.required' => 'Debes seleccionar un departamento.',
         ]);
 
         if ($this->selected_id) {
@@ -74,7 +101,7 @@ class Empleados extends Component
             $empleado->update([
                 'persona_id' => $this->persona_id,
                 'numero_legajo' => $this->numero_legajo,
-                'rol_id' => $this->rol_id,
+                'distrito_id' => $this->distrito_id, // <-- aquí también
                 'clase_id' => $this->clase_id,
                 'departamento_id' => $this->departamento_id,
             ]);
@@ -83,9 +110,10 @@ class Empleados extends Component
             Empleado::create([
                 'persona_id' => $this->persona_id,
                 'numero_legajo' => $this->numero_legajo,
-                'rol_id' => $this->rol_id,
+                'distrito_id' => $this->distrito_id, // <-- aquí también
                 'clase_id' => $this->clase_id,
                 'departamento_id' => $this->departamento_id,
+                'rol_id' => $this->rol_id,
             ]);
         }
 
@@ -93,6 +121,7 @@ class Empleados extends Component
         $this->resetForm();
         $this->modal = false;
     }
+
 
     public function delete($id)
     {
@@ -112,6 +141,7 @@ class Empleados extends Component
         $this->rol_id = null;
         $this->clase_id = null;
         $this->departamento_id = null;
+        $this->distrito_id = null;
     }
 
     public function render()
