@@ -63,7 +63,7 @@
                             <label class="block text-sm font-semibold text-gray-700 mb-2">Monto Diario Base</label>
                             <div class="relative">
                                 <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500 font-bold">$</span>
-                                <input type="number" step="0.01" wire:model.live="form.monto" class="pl-7 w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-900 focus:ring-blue-900 py-2.5">
+                                <input type="number" step="1" wire:model.live="form.monto" class="pl-7 w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-900 focus:ring-blue-900 py-2.5">
                             </div>
                             @error('form.monto') <span class="text-red-500 text-xs mt-1 font-semibold">{{ $message }}</span> @enderror
                         </div>

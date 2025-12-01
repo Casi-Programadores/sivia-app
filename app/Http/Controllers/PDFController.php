@@ -33,10 +33,9 @@ class PDFController extends Controller
         return $pdf->stream("solicitud_viatico_{$solicitud->id}.pdf");
     }
 
-       public function generarCertificado($solicitudId, $empleadoId)
+    public function generarCertificado($solicitudId, $empleadoId)
     {
         //  Buscamos la solicitud con todas las relaciones necesarias
-        // Incluimos 'detalle.resolucion' para obtener el número de resolución que cargaste en el paso anterior
         $solicitud = SolicitudViatico::with([
             'numeroNotaInterna',
             'distrito',
@@ -56,7 +55,7 @@ class PDFController extends Controller
         return $pdf->stream("certificado_viatico_{$empleado->numero_legajo}.pdf");
     }
 
-        public function generarLiquidacion($solicitudId, $empleadoId)
+    public function generarLiquidacion($solicitudId, $empleadoId)
     {
         $solicitud = SolicitudViatico::with([
             'numeroNotaInterna',
