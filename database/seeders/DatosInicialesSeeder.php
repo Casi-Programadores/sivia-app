@@ -89,12 +89,12 @@ class DatosInicialesSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'nombre_estado' => 'Aprobado',
+                'nombre_estado' => 'Aprobada',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            [
-                'nombre_estado' => 'Rechazado',
+            [   
+                'nombre_estado' => 'Cancelada',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
