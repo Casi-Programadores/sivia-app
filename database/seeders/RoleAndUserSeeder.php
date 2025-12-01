@@ -8,31 +8,28 @@ use App\Models\User;
 
 class RoleAndUserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        // Crear roles
+        // Roles
         $adminRole = Rol::firstOrCreate(['nombre_rol' => 'admin']);
         $userRole  = Rol::firstOrCreate(['nombre_rol' => 'user']);
 
-        // Crear usuario admin
+        // Usuario admin
         User::firstOrCreate(
             ['email' => 'admin@tudominio.com'],
             [
                 'name' => 'Administrador',
-                'password' => 'password', // Laravel 10 lo hashea automáticamente
+                'password' => bcrypt('password'),
                 'role_id' => $adminRole->id,
             ]
         );
 
-        // Crear usuario normal
+        // Usuario normal
         User::firstOrCreate(
             ['email' => 'usuario@tudominio.com'],
             [
                 'name' => 'Usuario Normal',
-                'password' => 'password',
+                'password' => bcrypt('password'),
                 'role_id' => $userRole->id,
             ]
         );
