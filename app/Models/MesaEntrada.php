@@ -11,6 +11,6 @@ class MesaEntrada extends Model
         'letra', 'numero_expediente'
     ];
 
-    protected $table = 'mesa_entrada';
+    protected $table = 'mesas_entradas';
     use SoftDeletes;
 }

@@ -8,6 +8,7 @@ use App\Livewire\Empleados\Index as EmpleadosIndex;
 use App\Livewire\Solicitudes\FormularioSolicitudViatico;
 use App\Livewire\Solicitudes\VerSolicitudViatico;
 use App\Http\Controllers\PDFController;
+use App\Livewire\Certificaciones\FormularioCertificacion;
 
 
 
@@ -34,6 +35,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/solicitudes/{solicitud}', VerSolicitudViatico::class)->name('solicitud.ver');
     Route::get('solicitud/pdf/{id}', [PDFController::class, 'generarPDF'])->name('generar.pdf');
+    Route::get('/solicitudes/{id}/certificar', FormularioCertificacion::class)->name('solicitudes.certificar');
+    Route::get('solicitud/{solicitud_id}/certificado/{empleado_id}', [PDFController::class, 'generarCertificado'])
+    ->name('certificado.pdf');
 
 
 

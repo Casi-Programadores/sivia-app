@@ -1,0 +1,175 @@
+body {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    color: #000;
+    margin: 0;
+    padding: 30px 40px;
+    line-height: 1.4;
+}
+
+/* Estilos Globales */
+.w-100 {
+    width: 100%;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-justify {
+    text-align: justify;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+/* Encabezado Modificado */
+.logos {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.logo-container {
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 5px;
+    margin-right: 10px;
+}
+
+.logo-texto {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 10px;
+    text-align: left;
+    line-height: 1.2;
+}
+
+.header-text {
+    display: block;
+    /* Para que baje a una nueva línea */
+    font-size: 8px;
+    line-height: 1.2;
+    margin-top: 5px;
+}
+
+/* Títulos */
+.titulo-certificacion {
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: underline;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+/* Texto Cuerpo */
+.cuerpo-texto {
+    margin-bottom: 50px;
+    /* Más espacio antes de la firma del jefe */
+    text-indent: 40px;
+    line-height: 1.6;
+    /* Un poco más de aire entre líneas */
+}
+
+/* Firma Jefe (Derecha) */
+.firma-jefe-container {
+    width: 100%;
+    text-align: right;
+    margin-bottom: 60px;
+}
+
+.firma-jefe-box {
+    display: inline-block;
+    text-align: center;
+    width: 220px;
+}
+
+.firma-linea {
+    border-top: 1px dotted #000;
+    margin-bottom: 5px;
+}
+
+/* Fecha Central */
+.fecha-central {
+    text-align: center;
+    font-weight: bold;
+    margin: 30px 0;
+    text-transform: uppercase;
+}
+
+/* Tabla Planilla */
+.tabla-contenedor {
+    border: 1px solid #000;
+    margin-bottom: 40px;
+}
+
+.tabla-titulo {
+    background-color: #e0e0e0;
+    border-bottom: 1px solid #000;
+    text-align: center;
+    font-weight: bold;
+    padding: 5px;
+}
+
+.tabla-subtitulo {
+    padding: 5px;
+    border-bottom: 1px solid #000;
+    font-weight: bold;
+}
+
+.tabla-mes-anio {
+    padding: 5px;
+    border-bottom: 1px solid #000;
+    display: table;
+    width: 100%;
+}
+
+/* La Tabla Grilla */
+.grilla {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9px;
+}
+
+.grilla th {
+    border: 1px solid #000;
+    text-align: center;
+    padding: 4px;
+    background-color: #f9f9f9;
+}
+
+.grilla td {
+    border: 1px solid #000;
+    padding: 4px;
+    text-align: center;
+    height: 15px;
+    vertical-align: middle;
+}
+
+.texto-chico {
+    font-size: 8px;
+    line-height: 1;
+}
+
+/* Footer Declaración */
+.declaracion-titulo {
+    text-align: center;
+    font-weight: bold;
+    text-decoration: underline;
+    margin-bottom: 30px;
+}
+
+.firma-trabajador-container {
+    margin-top: 80px;
+    /* Mucho más espacio para firmar cómodo */
+    text-align: right;
+}

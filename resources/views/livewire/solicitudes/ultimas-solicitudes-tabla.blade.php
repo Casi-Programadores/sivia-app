@@ -65,16 +65,40 @@
     @if($mostrarModalAprobar)
         <div class="fixed inset-0 flex items-center justify-center z-50">
             <div class="absolute inset-0 bg-gray-900/60 backdrop-blur-sm" wire:click="cerrarModales"></div>
-            <div class="relative bg-white rounded-xl p-6 w-full max-w-sm shadow-2xl border-t-4 border-green-800">
+            
+            <div class="relative bg-white rounded-xl p-6 w-full max-w-sm shadow-2xl border-t-4 border-[#142448]">
                 <div class="text-center">
-                    <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
-                        <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    
+                    {{-- Ícono de Información/Avance (Azul) --}}
+                    <div class="mx-auto flex items-center justify-center h-14 w-14 rounded-full bg-blue-50 mb-4">
+                        <svg class="h-8 w-8 text-[#142448]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
                     </div>
-                    <h3 class="text-lg font-bold text-gray-900">¿Aprobar Solicitud?</h3>
-                    <p class="text-sm text-gray-500 mt-2">La solicitud pasará a estado <strong>Aprobada</strong> y continuará al proceso de certificación.</p>
+
+                    <h3 class="text-lg font-bold text-gray-900">¿Continuar Proceso?</h3>
+                    
+                    <div class="mt-2 text-sm text-gray-600 space-y-2">
+                        <p>
+                            Se iniciará la etapa de <strong>Certificación y Liquidación</strong>.
+                        </p>
+                    </div>
+
                     <div class="mt-6 flex justify-center gap-3">
-                        <button wire:click="cerrarModales" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200">Volver</button>
-                        <button wire:click="aprobarSolicitud" class="px-4 py-2 bg-green-800 text-white rounded-lg text-sm font-medium hover:bg-green-700 shadow-md">Confirmar Aprobación</button>
+                        <button 
+                            wire:click="cerrarModales" 
+                            class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition"
+                        >
+                            Cancelar
+                        </button>
+                        
+                        <button 
+                            wire:click="aprobarSolicitud" 
+                            class="px-4 py-2 bg-[#142448] text-white rounded-lg text-sm font-bold hover:bg-[#0f1b36] shadow-md transition flex items-center gap-2"
+                        >
+                            <span>Ir a Certificar</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </button>
                     </div>
                 </div>
             </div>
