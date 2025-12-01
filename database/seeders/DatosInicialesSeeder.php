@@ -70,5 +70,34 @@ class DatosInicialesSeeder extends Seeder
                 'updated_at' => now()
             ]);
         }
+
+        // Números de nota interna
+        $notas = [];
+        for ($i = 0; $i <= 1000; $i++) {
+            $notas[] = [
+                'numero' => str_pad($i, 4, '0', STR_PAD_LEFT), // formato 0000, 0001, ...
+                'created_at' => now(),
+                'updated_at' => now()
+            ];
+        }
+        DB::table('numero_nota_interna')->insertOrIgnore($notas);
+
+        DB::table('estados_solicitudes')->insertOrIgnore([
+            [
+                'nombre_estado' => 'Pendiente',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nombre_estado' => 'Aprobado',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nombre_estado' => 'Rechazado',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
     }
 }
