@@ -21,7 +21,6 @@ class SolicitudForm extends Form
     #[Rule('required|exists:porcentajes,id')]
     public $porcentaje_id;
 
-    // --- CAMBIO AQUÍ: Validación Condicional ---
     // "Requerido si 'es_fuera_provincia' es falso (o sea, es local)"
     #[Rule('required_unless:es_fuera_provincia,true|nullable|exists:distritos,id', message: 'Distrito es obligatorio a menos que el destino sea fuera de la provincia.')]
     public $distrito_id;

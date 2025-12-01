@@ -11,7 +11,6 @@ use App\Http\Controllers\PDFController;
 use App\Livewire\Certificaciones\FormularioCertificacion;
 
 
-
 Route::redirect('/', '/login')->name('home');
 
 Route::view('dashboard', 'dashboard')
@@ -38,6 +37,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/solicitudes/{id}/certificar', FormularioCertificacion::class)->name('solicitudes.certificar');
     Route::get('solicitud/{solicitud_id}/certificado/{empleado_id}', [PDFController::class, 'generarCertificado'])
     ->name('certificado.pdf');
+    Route::get('solicitud/{solicitud_id}/liquidacion/{empleado_id}', [PDFController::class, 'generarLiquidacion'])
+    ->name('liquidacion.pdf');
 
 
 

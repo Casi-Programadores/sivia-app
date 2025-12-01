@@ -21,13 +21,12 @@ class PDFController extends Controller
             'porcentaje'         
         ])->findOrFail($id);
 
-        // Convertir monto a letras usando el paquete
+        // Convertir monto a letras 
         $formatter = new NumeroALetras();
         
 
         $montoEnLetras = $formatter->toMoney($solicitud->monto_total, 2, 'PESOS', 'CENTAVOS');
 
-        // Generar PDF
         $pdf = Pdf::loadView('pdf.solicitud', compact('solicitud', 'montoEnLetras'))
                   ->setPaper('legal', 'portrait'); 
 
@@ -36,7 +35,7 @@ class PDFController extends Controller
 
        public function generarCertificado($solicitudId, $empleadoId)
     {
-        // 1. Buscamos la solicitud con todas las relaciones necesarias
+        //  Buscamos la solicitud con todas las relaciones necesarias
         // Incluimos 'detalle.resolucion' para obtener el número de resolución que cargaste en el paso anterior
         $solicitud = SolicitudViatico::with([
             'numeroNotaInterna',
@@ -46,14 +45,45 @@ class PDFController extends Controller
             'detalle.resolucion' 
         ])->findOrFail($solicitudId);
 
-        // 2. Buscamos al empleado específico con sus datos personales y de departamento
+        //  Buscamos al empleado específico con sus datos personales y de departamento
         $empleado = Empleado::with(['persona', 'departamento'])
             ->findOrFail($empleadoId);
 
-        // 3. Generamos la vista
+        //  Generamos la vista
         $pdf = Pdf::loadView('pdf.certificado', compact('solicitud', 'empleado'))
                   ->setPaper('legal', 'portrait'); 
 
         return $pdf->stream("certificado_viatico_{$empleado->numero_legajo}.pdf");
+    }
+
+        public function generarLiquidacion($solicitudId, $empleadoId)
+    {
+        $solicitud = SolicitudViatico::with([
+            'numeroNotaInterna',
+            'distrito',
+            'localidad',
+            'porcentaje',
+            'detalle.resolucion', 
+            'empleados.departamento' 
+        ])->findOrFail($solicitudId);
+
+        $empleado = \App\Models\Empleado::with(['persona', 'clase', 'departamento'])
+            ->findOrFail($empleadoId);
+
+        // Importe Diario (Base)
+        $importeDiario = $solicitud->monto;
+        
+        $dias = $solicitud->cantidad_dias;
+        
+        $porcentajeValor = $solicitud->porcentaje->porcentaje ?? 100;
+
+        // Total Liquidación = (Diario * Días * (Porcentaje/100))
+        $totalLiquidacion = ($importeDiario * $dias) * ($porcentajeValor / 100);
+
+        //  Generar PDF
+        $pdf = Pdf::loadView('pdf.liquidacion', compact('solicitud', 'empleado', 'importeDiario', 'totalLiquidacion', 'porcentajeValor'))
+                  ->setPaper('legal', 'portrait');
+
+        return $pdf->stream("liquidacion_viatico_{$empleado->numero_legajo}.pdf");
     }
 }

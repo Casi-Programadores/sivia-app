@@ -14,12 +14,13 @@
              <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('images/logo-vialidad.png'))) }}" width="45">
         </div>
         {{-- Texto --}}
-            <br>Dirección Provincial De Vialidad<br>
-            <span style="font-weight: normal; font-size: 9px;">
-                Jujuy 599 - Tel 0370 - 4426048 - Fax: 0370 - 4426090<br>
-                3600 - FORMOSA
-            </span>
+        <br>Dirección Provincial De Vialidad<br>
+        <span style="font-weight: normal; font-size: 9px;">
+            Jujuy 599 - Tel 0370 - 4426048 - Fax: 0370 - 4426090<br>
+            3600 - FORMOSA
+        </span>
     </div>
+
     {{-- 2. TÍTULO --}}
     <div class="titulo-certificacion">CERTIFICACIÓN</div>
 
