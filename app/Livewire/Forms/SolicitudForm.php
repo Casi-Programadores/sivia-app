@@ -9,6 +9,7 @@ use App\Models\DetalleSolicitudViatico;
 use App\Models\EstadoSolicitud;
 use App\Models\Porcentaje;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 
 class SolicitudForm extends Form
 {
@@ -66,6 +67,34 @@ class SolicitudForm extends Form
     'nombre_provincia'       => 'nombre de la provincia',
     'empleados_agregados'    => 'empleados agregados',
 ];
+
+    public function calcularDias()
+    {
+        // Si no hay fecha fin, no hacemos nada
+        if (!$this->fecha_fin) return;
+
+        try {
+            // Fecha de Inicio = Hoy (normalizada a las 00:00 para contar días completos)
+            $inicio = now()->startOfDay();
+            
+            // Fecha Fin = La que puso el usuario (normalizada a las 00:00)
+            $fin = Carbon::parse($this->fecha_fin)->startOfDay();
+
+            // Calculamos la diferencia en días
+            $diferencia = $inicio->diffInDays($fin);
+
+            // Lógica de Viáticos:
+            // Si la fecha fin es hoy => 0 días de diferencia + 1 (el día actual) = 1 día.
+            // Si la fecha fin es mañana => 1 día de diferencia + 1 = 2 días.
+            $this->cantidad_dias = $diferencia + 1;
+
+            $this->calcularTotal();
+
+        } catch (\Exception $e) {
+            // Si la fecha es inválida, reseteamos a 1
+            $this->cantidad_dias = 1;
+        }
+    }
 
 
     public function calcularTotal()

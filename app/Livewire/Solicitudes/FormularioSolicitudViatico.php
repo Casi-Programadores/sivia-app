@@ -40,16 +40,22 @@ class FormularioSolicitudViatico extends Component
 
     public function updated($propertyName)
     {
+        //  Si el usuario cambia la FECHA FIN -> Calculamos Días automáticamente
+        if ($propertyName === 'form.fecha_fin') {
+            $this->form->calcularDias(); 
+        }
+
+        //  Si cambian otros factores (Monto, Días manual, Empleados, Porcentaje) -> Recalcular Dinero
         if (
-            str_contains($propertyName, 'form.cantidad_dias') ||
-            str_contains($propertyName, 'form.monto') ||
+            str_contains($propertyName, 'form.cantidad_dias') || 
+            str_contains($propertyName, 'form.monto') || 
             str_contains($propertyName, 'form.empleados_agregados') ||
             str_contains($propertyName, 'form.porcentaje_id')
         ) {
             $this->form->calcularTotal();
         }
 
-
+        // Lógica visual: Si desmarca "fuera de provincia", limpiamos el input de texto
         if ($propertyName === 'form.es_fuera_provincia' && !$this->form->es_fuera_provincia) {
             $this->form->nombre_provincia = null;
         }
