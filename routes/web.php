@@ -9,6 +9,7 @@ use App\Livewire\Solicitudes\FormularioSolicitudViatico;
 use App\Livewire\Solicitudes\VerSolicitudViatico;
 use App\Http\Controllers\PDFController;
 use App\Livewire\Certificaciones\FormularioCertificacion;
+use App\Livewire\Reportes\ReporteMensual;
 
 
 Route::redirect('/', '/login')->name('home');
@@ -41,6 +42,7 @@ Route::middleware(['auth'])->group(function () {
     ->name('certificado.pdf');
     Route::get('solicitud/{solicitud_id}/liquidacion/{empleado_id}', [PDFController::class, 'generarLiquidacion'])
     ->name('liquidacion.pdf');
+    Route::get('/reportes', ReporteMensual::class)->name('reportes.mensual');
 
 
 

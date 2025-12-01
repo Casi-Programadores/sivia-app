@@ -23,7 +23,7 @@
                 </svg>
             </a>
 
-            <a href="#"
+            <a href="{{ route('reportes.mensual') }}"
             class="group rounded-2xl border 
                     border-blue-900 dark:border-blue-400
                     bg-white dark:bg-zinc-800
@@ -50,7 +50,6 @@
                     </g>
                 </svg>
             </a>
-
 
             <a href="{{ route('empleados.empleado') }}"
             class="group rounded-2xl border 
