@@ -52,7 +52,7 @@
             </a>
 
 
-           <a href="#"
+            <a href="{{ route('empleados.empleado') }}"
             class="group rounded-2xl border 
                     border-blue-900 dark:border-blue-400
                     bg-white dark:bg-zinc-800

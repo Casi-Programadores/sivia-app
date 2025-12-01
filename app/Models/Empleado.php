@@ -7,10 +7,25 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Empleado extends Model
 {
-    protected $table = 'empleados';
-    protected $fillable = ['persona_id', 'numero_legajo', 'departamento_id','distrito_id', 'rol_id', 'clase_id'];
-    
+    use SoftDeletes;
 
+    protected $table = 'empleados';
+
+    // Indicar la PK correcta
+    protected $primaryKey = 'id';
+    public $incrementing = true; // si tu id_empleado es autoincremental
+    protected $keyType = 'int';
+
+    protected $fillable = [
+        'persona_id', 
+        'numero_legajo', 
+        'departamento_id',
+        'distrito_id', 
+        'rol_id', 
+        'clase_id'
+    ];
+
+    // Relaciones
     public function persona() {
         return $this->belongsTo(Persona::class, 'persona_id');
     }
@@ -31,7 +46,7 @@ class Empleado extends Model
         return $this->belongsTo(Clase::class, 'clase_id');
     }
 
-        public function solicitudesViaticos()
+    public function solicitudesViaticos()
     {
         return $this->belongsToMany(
             SolicitudViatico::class,
@@ -40,7 +55,4 @@ class Empleado extends Model
             'solicitud_viatico_id'
         )->withTimestamps();
     }
-    
-    use SoftDeletes;
-
 }
