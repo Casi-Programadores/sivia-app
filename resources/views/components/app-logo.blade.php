@@ -3,5 +3,5 @@
 </div>
 
 <div class="ms-1  flex-1 text-start text-sm">
-    <span class="mb-0.8 truncate leading-tight font-semibold">SIVIA-APP</span>
+    <span class="mb-0.8 truncate leading-tight font-semibold">SIVIA</span>
 </div>

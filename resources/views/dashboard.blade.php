@@ -1,4 +1,4 @@
-<x-layouts.app :title="__('Dashboard')">
+<x-layouts.app :title="__('SIVIA')">
     <div class="flex h-full w-full flex-1 flex-col gap-8">
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">

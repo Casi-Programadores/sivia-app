@@ -18,7 +18,7 @@
                     <div class="flex items-center gap-3">
                         <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                         <div>
-                            <p class="font-bold">¡Certificación Registrada Exitosamente!</p>
+                            <p class="font-bold">¡Certificación y Liquidación Registrada Exitosamente!</p>
                             <p class="text-sm">Puede descargar los documentos individuales en la lista de abajo.</p>
                         </div>
                     </div>
@@ -134,7 +134,6 @@
                                         </a>
 
                                         {{-- Botón Imprimir Liquidación --}}
-                                        {{-- Asegúrate de poner la ruta correcta, ej: route('pdf.liquidacion', $empleado->id) --}}
                                         <a href="{{ route('liquidacion.pdf', ['solicitud_id' => $solicitud->id, 'empleado_id' => $empleado->id]) }}" target="_blank" class="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-[#142448] border-2 border-[#142448] text-white text-xs font-bold uppercase tracking-wide rounded-lg hover:bg-[#0f1b36] hover:border-[#0f1b36] transition shadow-md">
                                             <svg class="w-4 h-4 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
                                             Imprimir Liquidación

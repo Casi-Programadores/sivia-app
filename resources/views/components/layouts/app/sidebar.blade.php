@@ -31,6 +31,11 @@
                 <flux:navlist.item icon="book-open-text" href="#" target="_blank">
                 {{ __('Manual de Usuario') }}
                 </flux:navlist.item>
+
+            <flux:navlist.item icon="question-mark-circle" href="#" target="_blank">
+                {{ __('Soporte Técnico') }}
+            </flux:navlist.item>
+
             </flux:navlist>
 
             <flux:dropdown class="hidden lg:block" position="bottom" align="start">
