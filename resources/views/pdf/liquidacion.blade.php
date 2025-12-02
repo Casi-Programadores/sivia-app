@@ -76,13 +76,13 @@
                 <tr>
                     <td style="border: none; text-align: left; padding: 2px 5px;">DÍA:</td>
                     <td style="border: none; text-align: right; padding: 2px 5px;">
-                        {{ $solicitud->created_at->format('d/m/Y') }}
+                        {{ \Carbon\Carbon::parse($solicitud->fecha_fin)->format('d/m/Y') }}
                     </td>
                 </tr>
                 <tr>
                     <td style="border: none; text-align: left; padding: 2px 5px;">HORA:</td>
                     <td style="border: none; text-align: right; padding: 2px 5px;">
-                        20:00
+                        {{ \Carbon\Carbon::parse($solicitud->fecha_fin)->format('H:i') }}
                     </td>
                 </tr>
             </table>

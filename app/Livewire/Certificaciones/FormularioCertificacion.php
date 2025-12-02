@@ -28,15 +28,26 @@ class FormularioCertificacion extends Component
     public $certificacionRealizada = false; 
 
     protected $rules = [
-        'numero_resolucion' => 'required|integer',
+        'numero_resolucion' => 'required|integer|unique:resoluciones_secretaria_general,numero_resolucion',
         'fecha_resolucion'  => 'required|date',
         'letra'             => 'required|string|max:5', 
-        'numero_expediente' => 'required|integer',
+        'numero_expediente' => 'required|integer|unique:mesas_entradas,numero_expediente',
     ];
 
-    public function mount($id)
+public function mount($id)
     {
-        $this->solicitud = SolicitudViatico::with('empleados.persona', 'numeroNotaInterna')->findOrFail($id);
+        $this->solicitud = SolicitudViatico::with(['empleados.persona', 'numeroNotaInterna', 'detalle'])->findOrFail($id);
+        
+        // --- BLOQUEO DE SEGURIDAD ---
+        // Si la solicitud ya tiene estado 2 (Aprobada), no dejamos entrar aquí de nuevo.
+        // Asumiendo que el ID 2 es Aprobada. Ajusta si usas otro ID.
+        if ($this->solicitud->detalle && $this->solicitud->detalle->estado_solicitud_id == 2) {
+            // Opcional: Puedes mandar un mensaje flash
+            session()->flash('message', 'Esa solicitud ya fue certificada anteriormente.');
+            return redirect()->route('dashboard');
+        }
+        // -----------------------------
+
         $this->empleados = $this->solicitud->empleados;
         $this->fecha_resolucion = now()->format('Y-m-d');
     }

@@ -65,7 +65,7 @@
         </div>
     </div>
 
-    {{-- 3. TARJETAS DE ESTADÍSTICAS (KPIs) --}}
+    {{-- 3. TARJETAS DE ESTADÍSTICAS  --}}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         
         {{-- Card 1: Total Liquidaciones --}}
@@ -221,4 +221,11 @@
             </div>
         </div>
     </div>
+            <!-- FOOTER -->
+        <footer class="w-full py-2 text-center">
+            <p class="text-sm text-zinc-600 dark:text-zinc-400">
+                Dirección Provincial de Vialidad • © 2025 SIVIA 
+            </p>
+        </footer>
+    </div> 
 </div>

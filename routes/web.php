@@ -11,6 +11,7 @@ use App\Http\Controllers\PDFController;
 use App\Livewire\Certificaciones\FormularioCertificacion;
 use App\Livewire\Reportes\ReporteMensual;
 use App\Http\Controllers\ReporteController;
+use App\Livewire\Solicitudes\IndexSolicitudes;
 
 
 
@@ -51,7 +52,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/reportes/exportar/excel', [ReporteController::class, 'exportarExcel'])
         ->name('reportes.exportar.excel');
 
-
+    Route::get('/solicitudes', IndexSolicitudes::class)->name('solicitudes.index');
 
 });
 
