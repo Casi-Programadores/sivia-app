@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 
 class DatosInicialesSeeder extends Seeder
 {
+    
     public function run(): void
     {
         DB::table('empleados_cargos')->insertOrIgnore([
@@ -101,6 +102,39 @@ class DatosInicialesSeeder extends Seeder
             ],
             [   
                 'nombre_estado' => 'Cancelada',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
+
+                DB::table('empleados')->insertOrIgnore([
+            [
+                'persona_id' => 1,
+                'numero_legajo' => 'LEG-001',
+                'departamento_id' => 1, 
+                'distrito_id' => 1,     
+                'empleado_cargo_id' => 1, 
+                'clase_id' => 1,       
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'persona_id' => 2,
+                'numero_legajo' => 'LEG-002',
+                'departamento_id' => 2, 
+                'distrito_id' => 3,     
+                'empleado_cargo_id' => 2, 
+                'clase_id' => 3,        
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'persona_id' => 3,
+                'numero_legajo' => 'LEG-003',
+                'departamento_id' => 4, 
+                'distrito_id' => 7,     
+                'empleado_cargo_id' => 3, 
+                'clase_id' => 5,        
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

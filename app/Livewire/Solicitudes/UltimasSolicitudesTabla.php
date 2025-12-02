@@ -3,12 +3,15 @@
 namespace App\Livewire\Solicitudes;
 
 use Livewire\Component;
+use Livewire\WithPagination;
 use App\Models\SolicitudViatico;
 use App\Models\EstadoSolicitud;
 use App\Models\DetalleSolicitudViatico;
 
 class UltimasSolicitudesTabla extends Component
 {
+    use WithPagination;
+
     public $solicitudSeleccionadaId = null;
     public $mostrarModalAprobar = false;
     public $mostrarModalCancelar = false;
@@ -65,24 +68,27 @@ class UltimasSolicitudesTabla extends Component
 
     public function render()
     {
+        // 3. Usamos paginate(5) en lugar de take(5)->get()
         $solicitudes = SolicitudViatico::with(['distrito', 'localidad', 'numeroNotaInterna'])
             ->latest()
-            ->take(5)
-            ->get();
+            ->paginate(5); // Paginación real de 5 por página
 
-        foreach ($solicitudes as $solicitud) {
-            // Buscamos el detalle asociado
-            $detalle = DetalleSolicitudViatico::where('solicitud_viatico_id', $solicitud->id)->first();
+        // Procesamos el estado para cada item de la página actual
+        $solicitudes->getCollection()->transform(function ($solicitud) {
+            $ultimoDetalle = DetalleSolicitudViatico::where('solicitud_viatico_id', $solicitud->id)
+                ->latest()
+                ->first();
                 
-            $solicitud->estado_actual = $detalle ? $detalle->estado_solicitud_id : 1; 
+            $solicitud->estado_actual = $ultimoDetalle ? $ultimoDetalle->estado_solicitud_id : 1; 
             
             $solicitud->nombre_estado = match($solicitud->estado_actual) {
                 1 => 'Pendiente',
                 2 => 'Aprobada',
-                3 => 'Cancelada', 
+                3 => 'Cancelada',
                 default => 'En Proceso'
             };
-        }
+            return $solicitud;
+        });
 
         return view('livewire.solicitudes.ultimas-solicitudes-tabla', [
             'solicitudes' => $solicitudes

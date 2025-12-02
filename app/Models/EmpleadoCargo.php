@@ -13,4 +13,8 @@ class EmpleadoCargo extends Model
         'cargo',
     ];
 
+        public function empleados()
+    {
+        return $this->hasMany(Empleado::class, 'empleado_cargo_id');
+    }
 }
