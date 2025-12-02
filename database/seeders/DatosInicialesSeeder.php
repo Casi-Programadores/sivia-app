@@ -10,6 +10,12 @@ class DatosInicialesSeeder extends Seeder
 {
     public function run(): void
     {
+        DB::table('empleados_cargos')->insertOrIgnore([
+            ['cargo' => 'Ingeniero/a', 'created_at' => now(), 'updated_at' => now()],
+            ['cargo' => 'Tecnico/a', 'created_at' => now(), 'updated_at' => now()],
+            ['cargo' => 'Topografo', 'created_at' => now(), 'updated_at' => now()],
+        ]);
+
         // Departamentos
         DB::table('departamentos')->insertOrIgnore([
             ['departamento' => 'Ingeniería Vial', 'created_at' => now(), 'updated_at' => now()],

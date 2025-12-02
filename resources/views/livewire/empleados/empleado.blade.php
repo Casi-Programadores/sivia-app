@@ -111,18 +111,16 @@
 
                 <!-- Rol -->
                 <div>
-                    <label class="block text-sm font-semibold text-black mb-1">Rol</label>
-                    <select wire:model="rol_id"
+                    <label class="block text-sm font-semibold text-black mb-1">Cargo</label>
+                    <select wire:model="empleado_cargo_id"
                         class="w-full border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
                         <option value="">Seleccionar...</option>
-                        @foreach($roles as $r)
-                        <option value="{{ $r->id }}">{{ $r->nombre_rol }}</option>
+                        @foreach($cargos as $c)
+                        <option value="{{ $c->id }}">{{ $c->cargo }}</option>
                         @endforeach
                     </select>
-                    @error('rol_id') <span class="text-red-600">{{ $message }}</span> @enderror
+                    @error('empleado_cargo_id') <span class="text-red-600">{{ $message }}</span> @enderror
                 </div>
-
-
 
                 <!-- Clase -->
                 <div>

@@ -21,7 +21,7 @@ class Empleado extends Model
         'numero_legajo', 
         'departamento_id',
         'distrito_id', 
-        'rol_id', 
+        'empleado_cargo_id',
         'clase_id'
     ];
 
@@ -38,8 +38,9 @@ class Empleado extends Model
         return $this->belongsTo(Distrito::class, 'distrito_id');
     }
 
-    public function rol() {
-        return $this->belongsTo(Rol::class, 'rol_id');
+    public function cargo()
+    {
+        return $this->belongsTo(EmpleadoCargo::class, 'empleado_cargo_id');
     }
 
     public function clase() {

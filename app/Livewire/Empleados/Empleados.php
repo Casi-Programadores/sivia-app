@@ -5,7 +5,7 @@ namespace App\Livewire\Empleados;
 use Livewire\Component;
 use App\Models\Empleado;
 use App\Models\Persona;
-use App\Models\Rol;
+use App\Models\EmpleadoCargo;
 use App\Models\Clase;
 use App\Models\Departamento;
 use App\Models\Distrito;
@@ -13,13 +13,13 @@ use App\Models\Distrito;
 class Empleados extends Component
 {
 
-    public $empleados, $personas, $roles, $clases, $departamentos, $distritos, $distrito_id;
+    public $empleados, $personas, $cargos, $clases, $departamentos, $distritos, $distrito_id;
     public $search = '';
 
 
     public $modal = false;
     public $selected_id;
-    public $persona_id, $numero_legajo, $rol_id, $clase_id, $departamento_id;
+    public $persona_id, $numero_legajo, $empleado_cargo_id, $clase_id, $departamento_id;
 
     public function mount()
     {
@@ -28,7 +28,7 @@ class Empleados extends Component
 
     private function loadData()
     {
-        $this->empleados = Empleado::with(['persona', 'rol', 'clase', 'departamento'])
+        $this->empleados = Empleado::with(['persona', 'cargo', 'clase', 'departamento'])
             ->when($this->search, function ($query) {
                 $query->whereHas('persona', function ($q) {
                     $q->where('nombre', 'like', '%' . $this->search . '%')
@@ -38,7 +38,7 @@ class Empleados extends Component
             ->get();
 
         $this->personas = Persona::all();
-        $this->roles = Rol::all();
+        $this->cargos = EmpleadoCargo::all();
         $this->clases = Clase::all();
         $this->departamentos = Departamento::all();
         $this->distritos = Distrito::all();
@@ -66,7 +66,7 @@ class Empleados extends Component
         $this->selected_id = $empleado->id; // <--- clave primaria correcta
         $this->persona_id = $empleado->persona_id;
         $this->numero_legajo = $empleado->numero_legajo;
-        $this->rol_id = $empleado->rol_id;
+        $this->empleado_cargo_id = $empleado->empleado_cargo_id; 
         $this->clase_id = $empleado->clase_id;
         $this->departamento_id = $empleado->departamento_id;
 
@@ -77,15 +77,10 @@ class Empleados extends Component
     {
         if (!auth()->user()->isRole('admin')) return;
 
-        if (!$this->rol_id) {
-            $this->rol_id = Rol::where('nombre_rol', 'Usuario')->first()->id;
-        }
-
-
         $this->validate([
             'persona_id' => 'required',
             'numero_legajo' => 'required',
-            'distrito_id' => 'required', // <-- cambiamos rol_id por distrito_id
+            'empleado_cargo_id' => 'required|exists:empleados_cargos,id', // <-- cambiamos rol_id por distrito_id
             'clase_id' => 'nullable',
             'departamento_id' => 'required',
         ], [
@@ -93,6 +88,7 @@ class Empleados extends Component
             'numero_legajo.required' => 'El legajo es obligatorio.',
             'distrito_id.required' => 'Debes seleccionar un distrito.',
             'departamento_id.required' => 'Debes seleccionar un departamento.',
+            'empleado_cargo_id.required' => 'Debes seleccionar un cargo.',
         ]);
 
         if ($this->selected_id) {
@@ -104,6 +100,7 @@ class Empleados extends Component
                 'distrito_id' => $this->distrito_id, // <-- aquí también
                 'clase_id' => $this->clase_id,
                 'departamento_id' => $this->departamento_id,
+                'empleado_cargo_id' => $this->empleado_cargo_id,
             ]);
         } else {
             // Crear
@@ -113,7 +110,7 @@ class Empleados extends Component
                 'distrito_id' => $this->distrito_id, // <-- aquí también
                 'clase_id' => $this->clase_id,
                 'departamento_id' => $this->departamento_id,
-                'rol_id' => $this->rol_id,
+                'empleado_cargo_id' => $this->empleado_cargo_id,
             ]);
         }
 
@@ -138,7 +135,7 @@ class Empleados extends Component
         $this->selected_id = null;
         $this->persona_id = null;
         $this->numero_legajo = null;
-        $this->rol_id = null;
+        $this->empleado_cargo_id = null;
         $this->clase_id = null;
         $this->departamento_id = null;
         $this->distrito_id = null;
