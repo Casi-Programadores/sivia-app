@@ -38,19 +38,34 @@ class ReporteMensual extends Component
 
     public function exportar()
     {
-        $this->dispatch('notify', 'Generando reporte en Excel...');
+        return redirect()->route('reportes.exportar.pdf', [
+            'mes'      => $this->mes,
+            'empleado' => $this->empleado_id,
+            'destino'  => $this->destino
+        ]);
     }
+
+    // EXPORTAR EXCEL (Botón Verde)
+    public function exportarExcel()
+    {
+        return redirect()->route('reportes.exportar.excel', [
+            'mes'      => $this->mes,
+            'empleado' => $this->empleado_id,
+            'destino'  => $this->destino
+        ]);
+    }
+
 
     public function render()
     {
-        // 1. QUERY BASE (Construcción)
+        //  QUERY BASE
         $query = SolicitudViatico::query()
             ->with(['empleados.persona', 'distrito', 'localidad', 'porcentaje', 'detalle'])
             ->whereHas('detalle', function($q) {
                 $q->whereIn('estado_solicitud_id', [2]); // 2 = Aprobada
             });
 
-        // 2. APLICAR FILTROS
+        // APLICAR FILTROS
         if ($this->mes) {
             $fecha = Carbon::createFromFormat('Y-m', $this->mes);
             $query->whereMonth('created_at', $fecha->month)

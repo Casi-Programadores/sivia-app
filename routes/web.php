@@ -10,6 +10,8 @@ use App\Livewire\Solicitudes\VerSolicitudViatico;
 use App\Http\Controllers\PDFController;
 use App\Livewire\Certificaciones\FormularioCertificacion;
 use App\Livewire\Reportes\ReporteMensual;
+use App\Http\Controllers\ReporteController;
+
 
 
 Route::redirect('/', '/login')->name('home');
@@ -39,10 +41,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('solicitud/pdf/{id}', [PDFController::class, 'generarPDF'])->name('generar.pdf');
     Route::get('/solicitudes/{id}/certificar', FormularioCertificacion::class)->name('solicitudes.certificar');
     Route::get('solicitud/{solicitud_id}/certificado/{empleado_id}', [PDFController::class, 'generarCertificado'])
-    ->name('certificado.pdf');
+        ->name('certificado.pdf');
     Route::get('solicitud/{solicitud_id}/liquidacion/{empleado_id}', [PDFController::class, 'generarLiquidacion'])
-    ->name('liquidacion.pdf');
+        ->name('liquidacion.pdf');
     Route::get('/reportes', ReporteMensual::class)->name('reportes.mensual');
+
+    Route::get('/reportes/exportar/pdf', [ReporteController::class, 'exportarPDF'])
+        ->name('reportes.exportar.pdf');
+    Route::get('/reportes/exportar/excel', [ReporteController::class, 'exportarExcel'])
+        ->name('reportes.exportar.excel');
 
 
 
