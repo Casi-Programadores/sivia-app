@@ -32,9 +32,9 @@
                 {{ __('Manual de Usuario') }}
                 </flux:navlist.item>
 
-            <flux:navlist.item icon="question-mark-circle" href="#" target="_blank">
-                {{ __('Soporte Técnico') }}
-            </flux:navlist.item>
+                <flux:navlist.item icon="question-mark-circle" href="{{ route('soporte.index') }}"> {{-- Ruta corregida --}}
+                    {{ __('Soporte Técnico') }}
+                </flux:navlist.item>
 
             </flux:navlist>
 
