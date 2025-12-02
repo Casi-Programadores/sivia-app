@@ -23,7 +23,7 @@ return new class extends Migration
             // Datos de rango / clasificación del empleado
             $table->foreignId('departamento_id')->constrained('departamentos');
             $table->foreignId('distrito_id')->constrained('distritos'); // Parte del puesto del empleado
-            $table->foreignId('rol_id')->constrained('roles');
+            $table->foreignId('empleado_cargo_id')->constrained('empleados_cargos');
             $table->foreignId('clase_id')->constrained('clases');
 
             $table->timestamps();

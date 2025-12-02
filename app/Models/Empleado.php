@@ -13,7 +13,7 @@ class Empleado extends Model
 
     // Indicar la PK correcta
     protected $primaryKey = 'id';
-    public $incrementing = true; // si tu id_empleado es autoincremental
+    public $incrementing = true; 
     protected $keyType = 'int';
 
     protected $fillable = [
@@ -21,7 +21,7 @@ class Empleado extends Model
         'numero_legajo', 
         'departamento_id',
         'distrito_id', 
-        'rol_id', 
+        'empleado_cargo_id', 
         'clase_id'
     ];
 
@@ -38,9 +38,11 @@ class Empleado extends Model
         return $this->belongsTo(Distrito::class, 'distrito_id');
     }
 
-    public function rol() {
-        return $this->belongsTo(Rol::class, 'rol_id');
+    public function cargo()
+    {
+        return $this->belongsTo(EmpleadoCargo::class, 'empleado_cargo_id');
     }
+
 
     public function clase() {
         return $this->belongsTo(Clase::class, 'clase_id');
