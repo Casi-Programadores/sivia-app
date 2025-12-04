@@ -28,7 +28,7 @@
 
             <flux:navlist variant="outline">
 
-                <flux:navlist.item icon="book-open-text" href="#" target="_blank">
+                <flux:navlist.item icon="book-open-text" href="{{ asset('docs/manual_de_usuario.pdf') }}"  target="_blank">
                 {{ __('Manual de Usuario') }}
                 </flux:navlist.item>
 
