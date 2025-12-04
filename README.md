@@ -5,9 +5,11 @@
 ### UNIVERSIDAD TECNOLÓGICA NACIONAL (UTN)
 **Facultad Regional Resistencia (FRRe)**
 
-**Carrera:** Tecnicatura Universitaria en Programación (TUP)
-**Asignatura/Instancia:** Trabajo Final Integrador - 3ra Instancia de Evaluación
-**Título del Proyecto:** Implementación de un Sistema Integral de Viáticos y Administración (SIVIA) para la DPV Formosa
+**Carrera:** Tecnicatura Universitaria en Programación (TUP).
+
+**Asignatura/Instancia:** Trabajo Final Integrador - 3ra Instancia de Evaluación.
+
+**Título del Proyecto:** Implementación de un Sistema Integral de Viáticos y Administración (SIVIA) para la DPV Formosa.
 
 ***
 
